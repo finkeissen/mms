@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+
+import sys
+import subprocess
+from pathlib import Path
+
+BASE = Path(__file__).resolve().parent
+
+def ensure_safe_base():
+    # Sicherheitscheck: nur im Versionsordner 0.1 arbeiten
+    if BASE.name != "0.1":
+        print(f"SICHERHEIT: mms darf nur im Ordner '0.1' laufen. Aktuell: {BASE}")
+        sys.exit(1)
+
+def help():
+    print("""
+MMS – Philosophische Programmierung CLI
+
+Verfügbare Befehle:
+  mms setup              – Projektstruktur erzeugen/ergänzen
+  mms domains            – Domänen generieren (TODO)
+  mms problems <domain>  – Probleme generieren (TODO)
+  mms help               – diese Hilfe anzeigen
+""")
+
+def run_script(script_name, *args):
+    script_path = BASE / "engine" / script_name
+    subprocess.run(["python3", str(script_path), *args])
+
+def main():
+    ensure_safe_base()
+
+    if len(sys.argv) < 2:
+        help()
+        return
+
+    command = sys.argv[1]
+
+    if command == "help":
+        help()
+
+    elif command == "setup":
+        subprocess.run(["python3", "setup_mms_project.py"])
+
+    elif command == "domains":
+        run_script("generate_domains.py")
+
+    elif command == "problems":
+        if len(sys.argv) < 3:
+            print("Bitte eine domain_id angeben.")
+            sys.exit(1)
+        run_script("generate_problems.py", sys.argv[2])
+
+    else:
+        print(f"Unbekannter Befehl: {command}")
+        help()
+
+if __name__ == "__main__":
+    main()
+

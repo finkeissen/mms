@@ -1,0 +1,467 @@
+# Matrix Management Systen (MMS) – Interne README
+Diese README ist ausschließlich für die interne Entwicklung bestimmt und definiert:
+- Architektur & Struktur
+- Engine-Spezifikation
+- Daten- und Schema-Layouts
+- CLI-Verhalten
+- Logging & Meta-Schicht
+- LLM-Protokolle (Vorbereitung)
+- Diese README ist ausschließlich für die interne Entwicklung bestimmt
+- Sie definiert die Architektur, Verzeichnisstruktur, Datenlayouts, Protokolle und geplanten Erweiterungen des MMS
+- Sie dient als zentrale, stabile Referenz für alle 0.x-Versionen
+- Sie wird NUR vom Autoren selbst editiert
+- Die Zielvorgaben strikt einhalten!
+- Maschinelle Vorschläge jederzeit erbeten (auch für später)
+- Wenn es Konflikte gibt, werden sie IMMER zuerst in dieser README.md angepasst
+- Ansonsten halten sich aber alle strickt an die Definitionen hier!
+- Die externe README (für GitHub) wird erst kurz vor Veröffentlichung erstellt
+- Diese README wird aktualisiert, sobald wesentliche neue Komponenten entstehen
+- Sie ist die verbindliche Referenz für alle internen Entwicklungsarbeiten der 0.x-Reihe
+- Maschinelle Vorschläge immer kompakt halten und am Ende mit einer klaren Auswahl von Entscheidungen versehen. Neue Skriptvorschläge IMMER als gesamtes neues Skript ausgeben. Minimales Layout. Lösungen am besten alse Code Markdown.
+
+# Interne Entwickler-Dokumentation (MMS-Verfassung), Version 0.1.5
+- Diese Version baut vollständig auf 0.1.3 auf.
+- Das funktionale Verhalten der CLI und der Engine-Pipelines bleibt unverändert.
+- 0.1.5 führt ausschließlich strukturelle und technische Qualitätsverbesserungen ein.
+
+# 0. Changelog (0.1.5)
+Diese Version ist eine technische Verfeinerung der stabilen Basis aus 0.1.3.
+**Änderungen gegenüber 0.1.3:**
+- Zentralisierung des Loggings über `engine/utils/logger.py`
+- Format der Log-Einträge entspricht nun strikt Kapitel 9 der README:
+  ```json{"timestamp": "<ISO-8601>","event": "<command>", "version": "<semver>", "status": "success" | "error", "details": { ... }}```
+
+**Änderungen gegenüber 0.1.4:**
+- 
+
+
+# 1. Zweck des MMS
+Das MMS ist ein System zur LLM-gestützten Erzeugung einer Wissensbasis über Problemlösungen.
+Das System trennt strikt:
+- Technische Schicht (engine). (Promps zur Wissensgenerierung, Datei-Organisation, Validierung, Batches, IDs, Snapshots)
+- Wissensschicht (facts). (natürlichsprachliche Algorithmen / Protokolle, die vom LLM ausgeführt werden)
+Zielpipeline:
+1. Domänenliste (aktuell 50 Domänen) vervollständigen (engine/add_domain.py in facts/domains.jsonl)
+2. Problemlisten (bis zu 10.000.000 Problemnamen aus 50 Domänen) zu jeder Domäne vervollständigen (engine/add_problems.py in facts/problems/[domain.jsonl])
+3. Wissensbasis (Details zu 10.000.000 Problemen) zu jedem Problem vervollständigen (add_knowledge.py in /knowledge/[problem.json])
+
+
+# 2. Versionierung & Container-Modell
+Jede MMS-Version lebt in einem eigenen Ordner (z.B. `0.1.5/`).
+Dieser Container enthält:
+- Code
+- Daten
+- Konfiguration
+- Dokumentation
+- Schemata
+- Tests
+Zwischen Versionen wird der Ordner vollständig kopiert und angepasst.
+In der frühen Phase (0.x):
+- Die Wissensbasis ist experimentell und wird **nicht versioniert**.
+- Snapshots sind optional zur Zwischenablage.
+- Das System wird sich schnell weiterentwickeln.
+Später geplant:
+- feingranulares Dateiversionierungssystem
+- Snapshots pro Domäne
+- versionierte JSON/JSONL-Einträge
+- Änderungs-Logs und Patch-Dateien
+- automatisierte Konsistenzprüfungen zwischen Versionen
+- Armaturenbrett für laufende Prozesse + Zustand bzw. Geschwindigkeit der Wissensgenerierung
+
+
+# 3. Verzeichnisstruktur (Stand 0.1.5)
+Nachfolgende Struktur bildet die Grundlage für alle kommenden 0.x-Releases:
+
+```
+0.1.5/
+├── mms # CLI entrypoint
+├── VERSION # = "0.1.5"
+├── README.md # interne Entwicklerdokumentation
+│
+├── facts/
+│ ├── domains.jsonl
+│ ├── problems/ # <domain>.jsonl
+│ └── knowledge/# <problem>.jsonl
+│
+├── schemas/
+│ ├── domains.schema.json
+│ ├── problem.schema.json
+│ └── knowledge.schema.json
+│
+├── logs/
+│ ├── log.jsonl # globales Systemlog
+│ ├── config_log.jsonl# Änderungen an Konfigurationsdateien
+│ ├── version_diffs.jsonl
+│ └── qa_reports.jsonl
+│
+├── engine/
+│ ├── utils/
+│ │ ├── config.yaml
+│ │ ├── layout.py
+│ │ ├── utils_jsonl.py
+│ │ ├── llm_wrapper.py
+│ │ └── __pycache__
+│ ├── add_domains.py
+│ ├── add_problems.py
+│ ├── add_knowledge.py
+│ └── evaluate_quality.py (erst in späteren Versionen!)
+│
+├── docs/
+│ ├── architecture.md
+│ ├── pipeline.md
+│ ├── protokolle.md
+│ ├── output_policy.md
+│ ├── query_preflight.md
+│ ├── philosophy/
+│ ├── epistemics.md
+│ └── metamodell.md
+│
+├── tests/
+│ ├── test_cli.py
+│ ├── test_schema_validator.py
+│ ├── test_problem_pipeline.py
+│ └── test_logging.py
+│
+├── exports/
+├── graphs/
+├── reports/
+└── views/
+```
+
+# 4. Pipeline + Wissenslayout (Problems + Knowledge)
+Fakten bestehen aus:
+1. Domänenliste (50 Domänen) vervollständigen (engine/add_domain.py in facts/domains.jsonl)
+2. Problemliste (bis zu 10.000.000 Problemnamen) zu jeder Domäne vervollständigen (engine/add_problems.py in facts/problems/[domain.jsonl])
+3. Wissensbasis (Details zu 10.000.000 Problemen) zu jedem Problem vervollständigen (engine/add_knowledge.py in /knowledge/[problem.json])
+
+
+# 5. LLM-Protokolle (natürlichsprachliche Algorithmen)
+Wesentliche Protokolle:
+- PROTOKOLL_GENERIERE_DOMAENE
+- PROTOKOLL_GENERIERE_PROBLEME
+- PROTOKOLL_ANREICHERUNG
+- PROTOKOLL_BEWERTUNG
+- PROTOKOLL_VERKNUEPFUNG
+- PROTOKOLL_DUPLIKATE
+- PROTOKOLL_QUALITY_REWRITE
+- PROTOKOLL_EXPORT_KAPITEL
+
+Eigenschaften:
+- ausführliche, deterministische Anweisungen für das LLM
+- definierte Eingabe- und Ausgabestrukturen
+- erzwingen gültiges JSON
+- unabhängig von Modell oder Backend
+- ermöglichen Austauschbarkeit und Skalierbarkeit
+
+# 5.1 Minimale Datenstrukturen (informell)
+Die JSON/JSONL-Strukturen sind in `schemas/` formal definiert.
+Informell gelten folgende Minimal-Felder (können später erweitert werden):
+
+# Domains (facts/domains.jsonl)
+Jede Zeile beschreibt eine Domäne:
+- `id` (string, kurz, maschinenlesbar, z.B. "finanzen")
+- `name` (string, Klartextname)
+- `description` (string, kurze Beschreibung)
+
+# Problems (facts/problems/<domain>.jsonl)
+Jede Zeile beschreibt ein Problem in einer Domäne:
+- `id` (string, eindeutig innerhalb des Systems)
+- `domain_id` (string, Referenz auf `domains.id`)
+- `title` (string, Problemname)
+- `summary` (string, Kurzbeschreibung)
+
+# Knowledge (facts/knowledge/<problem>.jsonl)
+Jede Zeile beschreibt einen Wissenseintrag zu einem Problem:
+- `problem_id` (string, Referenz auf `problems.id`)
+- `steps` (array von Objekten mit z.B. `description`, `rationale`)
+- `meta` (Objekt mit z.B. `source`, `created_at`, `quality`)
+Diese Struktur wird später durch die Protokolle aus Kapitel 5 befüllt.
+
+
+
+# 6. Entwicklungsregeln
+- keine Arbeit außerhalb des neuesten Versionscontainers
+- keine Änderungen an älteren Versionen
+- jede LLM-Antwort **muss valides JSON** sein
+- Fakten werden ausschließlich durch Engine-Skripte erzeugt
+- Protokolle enthalten die gesamte Wissenslogik
+- Engine ändert die Fakten
+- jede Änderung muss deterministisch reproduzierbar sein
+
+
+# 7. Spätere Erweiterungen (Ausblick, nicht hier)
+Diese Punkte sind bereits im System vorgesehen und werden im Laufe der 0.x-Phase implementiert.
+
+# 7.1 Versions- & Snapshot-System
+- Snapshots pro Domäne
+- Änderungs-Logs (Diffs, Patches)
+- Versionsfelder in JSON-Daten
+- Konsistenzprüfungen zwischen Versionen
+
+# 7.2 Meta- & QA-Schicht
+- globales Systemlog
+- QA-Scores pro Wissenseintrag
+- Konsistenz- und Validitätsreports
+- Konfigurationshistorie
+
+# 7.3 Rollenmodell & Output-Policy
+- Rollen: GAST, USER, FORSCHER, INTERN, ADMIN
+- Parameter: LEVEL, LIMIT, COST, FORM
+- Regellogik zur Steuerung der Antwortstruktur
+
+# 7.4 MMSQ – Query-Layer
+- interne Such- und Analyse-DSL
+- Filter nach Ursachen, Risiken, Kategorien
+- Ausgabe: Listen, Tabellen, Graphen, JSON
+
+# 7.5 Multi-LLM-Review
+- Generator (A)
+- Kritiker (B)
+- Vertiefer (C)
+- Merger (D)
+- automatische Repair- und Rewrite-Schleifen
+
+# 7.6 Selbst-Reflexion & Auto-Patching (ab ≥ 0.3)
+- Analyse der eigenen Datenstrukturen
+- Erkennung von Inkonsistenzen
+- automatische Vorschläge für Schema- und Protokolländerungen
+- Testen von Patches vor Übernahme
+
+# 7.7 Exporte & Visualisierung
+- Graph-Exports
+- Kapitel-Exports
+- Analyse-Reports
+- visuelle Darstellung komplexer Zusammenhänge
+
+
+# 8. CLI MMS
+- Die CLI bildet den äußeren, minimalen Steuerungspunkt für die Datenverarbeitungs-Pipeline der jeweiligen MMS-Version.
+- In Version 0.1.5 ist sie bewusst klein und delegiert die eigentliche Arbeit an die Engine-Module.
+
+# 8.1 Position und Ausführbarkeit
+Die Datei mms liegt im Wurzelverzeichnis der Version:
+```
+0.1.5/
+├── mms            # CLI entrypoint
+├── VERSION        # = "0.1.5"
+└── …
+```
+
+mms ist ein Python-Skript mit Shebang:
+
+#!/usr/bin/env python3
+
+Die Datei muss ausführbar sein:
+```
+chmod +x mms
+git update-index --chmod=+x mms   # falls Git verwendet wird
+```
+Standardaufruf: ```./mms <command> [<args>...]```
+
+
+# 8.2 Allgemeines Verhalten
+
+Die CLI dient ausschließlich als Einstiegspunkt in die Engine der jeweiligen MMS-Version und führt selbst keinerlei Logik aus.
+Unterstützt die CLI exakt die folgenden Kommandos:
+help
+version
+domains.add
+problems.add
+knowledge.add
+
+Exit Codes
+0 – Erfolg
+1 – Fehler (unbekanntes Kommando, JSON-Fehler, Ausnahmen)
+
+Unbekannte Befehle
+Unbekannter Befehl: <command>
+Verwende: ./mms help
+
+# 8.3 Befehl: help
+Aufruf: ./mms help
+
+Verhalten:
+Gibt eine Übersicht aller Befehle aus. Mindestens folgende Zeilen müssen erscheinen:
+
+mms – Matrix Management System Shell (0.1.5)
+
+Verfügbare Befehle:
+  help                zeigt diese Hilfe
+  version             zeigt die MMS-Versionsnummer
+  domains.add         verarbeitet facts/domains.jsonl
+  problems.add        verarbeitet facts/problems/<domain>.jsonl
+  knowledge.add       verarbeitet facts/knowledge/<problem>.jsonl
+
+Exit-Code:
+0
+
+# 8.4 Befehl: version
+Aufruf:
+./mms version
+Ausgabe:
+MMS-Version: 0.1.5
+Exit-Code:
+0
+
+# 8.5 Befehl: domains.add
+- Aufruf: ./mms domains.add
+- Verhalten: Arbeitet auf facts/domains.jsonl
+- Falls die Datei nicht existiert: wird sie neu (leer) angelegt, ein Log-Eintrag "domains.add" wird erstellt.
+- Falls die Datei existiert: jede Zeile wird auf gültiges JSON geprüft, Anzahl der Domain-Einträge wird gezählt, Ergebnis wird ausgegeben.
+- Beispielausgabe: [domains.add] Domains-Datei: facts/domains.jsonl, [domains.add] Anzahl Einträge: <n>
+- Logging: Es wird ein JSON-Eintrag in logs/log.jsonl geschrieben, z. B.: {"event": "domains.add", "created": false, "entries": <n>, "path": "facts/domains.jsonl"}, Exit-Codes: 0 – Erfolg, 1 – ungültiges JSON oder Fehler
+
+# 8.6 Befehl: problems.add
+- Aufruf: ./mms problems.add          # alle Domains
+- ./mms problems.add <domain> # nur für eine Domain
+- Verhalten: Basisverzeichnis: facts/problems/
+- Ohne Argument: alle .jsonl-Dateien werden verarbeitet.
+- Mit <domain>: nur facts/problems/<domain>.jsonl wird verarbeitet, falls vorhanden.
+- Es wird gezählt: Anzahl Dateien, Anzahl Problem-Einträge. Zusammenfassung wird ausgegeben.
+- Beispielausgabe: [problems.add] Zusammenfassung: <files> Datei(en), <problems> Problem-Einträge
+Logging: Beispiel: {"event": "problems.add", "files": <files>, "problems": <problems>, "dir": "facts/problems/", "domain": "<optional>"}, Exit-Codes: 0 – Erfolg, 1 – JSON-Fehler oder Ausnahmen
+
+# 8.7 Befehl: knowledge.add
+Aufruf:
+./mms knowledge.add               # alle Problemspezifischen Dateien
+./mms knowledge.add <problem>     # nur eine Knowledge-Datei
+Verhalten: Basisverzeichnis: facts/knowledge/
+Ohne Argument: alle .jsonl werden verarbeitet.
+Mit <problem>: nur facts/knowledge/<problem>.jsonl wird verarbeitet.
+Zählt: Anzahl Dateien, Anzahl Knowledge-Einträge. Ausgabe der Zusammenfassung.
+Beispielausgabe: [knowledge.add] Zusammenfassung: <files> Datei(en), <entries> Knowledge-Einträge
+Logging: {"event": "knowledge.add", "files": <files>, "entries": <entries>, "dir": "facts/knowledge/", "problem": "<optional>"}
+Exit-Codes:
+0 – Erfolg
+1 – Fehler oder ungültiges JSON
+
+
+# 9. Meta- & Logging-Schicht (Spezifikation für Version 0.1.5)
+- Die Meta- & Logging-Schicht dokumentiert sämtliche operativen Aktionen des Systems.
+- Sie dient als Grundlage für spätere QA-Funktionen, Versionsvergleiche und Analysen.
+- In Version 0.1.5 wird sie explizit einfach gehalten, um Stabilität und Reproduzierbarkeit zu gewährleisten.
+
+# 9.1 Grundprinzipien
+- ein Engine-Aufruf → ein Log-Eintrag
+- JSONL, eine Zeile pro Eintrag
+- deterministisch wiederherstellbar
+- keine stillschweigenden Fehler
+
+# 9.2 Globales Systemlog: logs/log.jsonl
+Pfad: `logs/log.jsonl`
+Format: ```json{"timestamp": "<ISO-8601>", "event": "<command>", "version": "0.1.5", "status": "success" | "error", "details": { ... }}
+
+# 9.3 Konfigurationslog: logs/config_log.jsonl    ### 9.3 Umsetzung ab Version 0.1.5
+- Logging erfolgt ab 0.1.5 ausschließlich über: from engine.utils.logger import write_log
+- Signatur: write_log(event: str, status: str, details: Mapping[str, Any])
+- Eigenschaften: zentrale Stelle → konsistent, testbar, monkeypatch-kompatibel (Tests setzen LOGS_MAIN_FILE um), Zeitstempel stabil: datetime.now(UTC).isoformat(timespec="seconds") + "Z"
+- Alle Engine-Pipelines (domains.add, problems.add, knowledge.add) verwenden ausschließlich diese zentrale Logging-Utility.
+- Dadurch ist Logging: schema-stabil, testbar, monkeypatch-kompatibel (Tests können LOGS_MAIN_FILE umleiten), und frei von `utcnow()`-Warnings.
+- Die zentrale Funktion hat folgende Signatur: ```python write_log(event: str, status: str, details: Mapping[str, Any])
+
+# 9.4 Versions-Diffs: logs/version_diffs.jsonl
+- Für Version 0.1.5 bleibt diese Datei optional und dient nur als Container für spätere Erweiterungen (Snapshots, Patch-System).
+- Empfohlene Minimalstruktur: {"timestamp": "<ISO-8601>", "type": "manual-note", "note": "Reserviert für zukünftige Versionsdifferenzen"}
+- Pfad: logs/config_log.jsonl, Ist in 0.1.5 Platzhalter für spätere Versionen.
+
+# 9.5 QA-Reports: logs/qa_reports.jsonl
+- Auch diese Datei ist in 0.1.5 minimal und lediglich ein behältnis für zukünftige Qualitätsscores.
+- Empfohlene Minimalstruktur: {"timestamp": "<ISO-8601>", "qa_target": "<problem or domain>", "result": "pending"}
+
+# 9.6 Anforderungen an Engine-Skripte
+- Jedes Engine-Skript muss nach erfolgreichem Durchlauf: Einen strukturierten Log-Eintrag in logs/log.jsonl erzeugen
+- Den Status klar angeben: "success" oder "error"
+- Konflikte niemals stillschweigend unterdrücken
+- Einträge in details immer klein, flach und maschinenlesbar halten
+- QA-Reports (minimal): Pfad: logs/qa_reports.jsonl
+
+# 9.7 Minimaler Logger (Empfehlung 0.1.5)
+- Der Logger wird in 0.1.5 bewusst simpel gehalten:
+- Einfache Funktion: def write_log(event: str, status: str, details: dict): entry = {"timestamp": datetime.utcnow().isoformat() + "Z", "event": event, "version": get_version(), "status": status, "details": details} append_jsonl(LOGS_MAIN_FILE, entry)
+- Keine Rotation
+- Keine Sperren
+- Keine Parallelität
+- Ab Version 0.2.x kann der Logger erweitert werden durch: Checksums, Snapshot-IDs, Cross-Version-Vergleiche, QA-Scores
+- genau ein Log-Eintrag
+- Schema strikt einhalten
+- keine stillen Fehler
+- details minimal & maschinenfreundlich
+
+
+# 10. Engine-Skripte (Spezifikation 0.1.5)
+- Die Engine-Skripte bilden die technische Verarbeitungsschicht. Sie verändern ausschließlich Dateien im facts/-Bereich.
+- Alle Skripte folgen denselben Grundprinzipien: lesen JSON/JSONL, validieren und schreiben Ergebnisse. keine freie LLM-Generierung in 0.1.5
+- deterministische Abläufe: ein Log-Eintrag pro Ausführung, keine Änderungen ohne Log
+- Engine-Skripte verändern ausschließlich Dateien im Bereich `facts/`. Sie enthalten **keine LLM-Aufrufe** in 0.1.5.
+- Gemeinsame Regeln: JSON/JSONL lesen & validieren, Einträge zählen, Fehler klar ausgeben, Logging über `write_log()`, deterministisches Verhalten
+
+# 10.1 add_domains.py
+- Zweck: Verarbeitet die Datei facts/domains.jsonl und stellt sicher, dass alle Domain-Einträge gültig sind
+- Verhalten: Datei anlegen, falls nicht vorhanden. jede Zeile als JSON validieren. Anzahl der Domains bestimmen
+- in logs/log.jsonl schreiben: event="domains.add", entries=<n>, path="facts/domains.jsonl", Keine LLM-Aufrufe in dieser Version
+- verarbeitet `facts/domains.jsonl`, legt Datei an, falls fehlend, validiert jede Zeile (JSON), zählt Domain-Einträge, schreibt Log-Eintrag `event="domains.add"`
+
+# 10.2 add_problems.py
+- Zweck: Validiert und verarbeitet Problem-Listen pro Domäne in facts/problems/
+- Verhalten: ohne Argument → alle Dateien mit Argument <domain> → nur <domain>.jsonl
+- JSON-Validierung aller Einträge zählt: Anzahl Dateien, Anzahl Problem-Einträge, Logging-Eintrag: event="problems.add"
+- Keine LLM-Aufrufe in dieser Version
+- verarbeitet `facts/problems/`, ohne Argument: alle `.jsonl`, mit `<domain>`: nur `<domain>.jsonl`, validiert JSON, zählt Dateien und Problem-Einträge, Logging über `event="problems.add"`
+
+# 10.3 add_knowledge.py
+- Zweck: Verarbeitet die Wissenseinträge eines Problems in facts/knowledge/
+- Verhalten: ohne Argument → alle Knowledge-Dateien
+- mit Argument <problem> → nur <problem>.jsonl
+- JSON-Validierung zählt: Anzahl Dateien, Anzahl Wissenseinträge, Logging: event="knowledge.add"
+- Noch keine Wissensgenerierung in 0.1.5., LLM-Anbindung folgt erst in späteren Versionen
+- arbeitet auf `facts/knowledge/`, analog zu problems.add, Logging: `event="knowledge.add"`
+
+## 10.4 Umsetzung in 0.1.5
+- Die Engine-Skripte (`engine/add_domains.py`, `engine/add_problems.py`, `engine/add_knowledge.py`) verwenden ab Version 0.1.5 nicht mehr ihre eigenen Logging-Helfer, sondern: ```python from engine.utils.logger import write_log
+- Alle Skripte nutzen nun: ```python from engine.utils.logger import write_log```
+
+# 11. LLM-Einbindung (Minimalversion 0.1.5)
+- Die LLM-Einbindung ist in Version 0.1.5 nur technisch vorbereitet, aber noch nicht Teil der Pipeline. Sie geschieht ausschließlich über: engine/utils/llm_wrapper.py
+- Kurz & knapp: zentrale Abstraktion für alle künftigen LLM-Aufrufe kapselt Prompt-Erstellung, API-Aufrufe, Fehlerbehandlung, Engine-Skripte rufen später nur eine Funktion auf, z.B.: from engine.utils.llm_wrapper import ask_llm, response = ask_llm(prompt)
+- In Version 0.1.5 gilt: Es wird noch kein LLM aufgerufen, Protokolle aus Kapitel 5 definieren die künftige Kommunikation, llm_wrapper.py dient nur als technischer Platzhalter
+- In 0.1.5 ist die LLM-Einbindung **technisch vorbereitet**, aber nicht aktiv.
+- Alle zukünftigen LLM-Aufrufe laufen über: ```python from engine.utils.llm_wrapper import ask_llm
+- In 0.1.5: kein Skript ruft ein LLM auf llm_wrapper.py ist ein Platzhalter
+- Protokolle in Kapitel 5 definieren bereits zukünftige Schritte
+- LLM-Funktionen werden ab Version 0.1.5 implementiert.
+
+
+# 12. Tests (Kurzbeschreibung & Struktur)
+- Die Tests liegen in: tests/ und sind minimal, aber funktional vollständig.
+
+# 12.1 test_cli.py
+- Prüft: Startbarkeit der CLI, Ausgabe von help: Ausgabe von version, Existenz der Kommandos, Fehlerbehandlung bei unbekannten Kommandos
+
+# 12.2 test_schema_validator.py
+- Prüft: alle JSON-Schema-Dateien in schemas/, generiert Dummy-Einträge, die valide sein müssen, stellt sicher, dass Domains/Problems/Knowledge korrekt strukturiert sind
+
+# 12.3 test_problem_pipeline.py
+- Prüft: Problemverzeichnis wird korrekt gelesen, YAML/JSON-Layouts funktionieren, Engine-Layout (Pfade über layout.py) ist korrekt stabilisiert
+
+# 12.4 test_logging.py
+- Prüft: Engine-Skripte schreiben Einträge in logs/log.jsonl, domains.add erzeugt strukturierte Log-Einträge, Minimalanforderungen der Meta-Schicht werden eingehalten
+
+
+# 13. Ausblick: Version 0.1.5 (Vorbereitung)
+Version 0.1.5 schließt die technische Grundlage für den nächsten Schritt:
+- Einführung der ersten LLM-Protokolle (Kapitel 5.x)
+- Konkretes Protokoll z.B. `PROTOKOLL_GENERIERE_DOMAENE`
+- Erweiterung der CLI um erste Befehle für das Protokollsystem - Es werden in 0.1.5 erstmals LLM-Anfragen über `llm_wrapper` stattfinden
+- Version 0.1.5 enthält dafür die aufgebaute Struktur, aber noch keine LLM-Funktionalität
+0.1.5 wird die erste Version sein, die tatsächlich LLM-Funktionalität nutzt. Geplant:
+- Aktivierung des ersten Protokolls: `PROTOKOLL_GENERIERE_DOMAENE`
+- Integration in `llm_wrapper.py`
+- erstes LLM-gestütztes Skript `engine/generate_domain.py`
+- Reviewer-Struktur (Generator, Kritiker, Merger)
+- optionale Sub-Befehle in der CLI, z. B.:
+  - `mms domain.generate <name>`
+  - `mms problem.generate <domain>`
+  - `mms knowledge.generate <problem>`
+0.1.4 bildet die vollständige Grundlage dafür
+
+

@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Editor / Backups
+*~
+*.swp
+.DS_Store
+
+# Generated artifacts
+logs/
+exports/
+facts/tmp/
+

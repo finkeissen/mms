@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Knowledge Unit Schema",
+  "type": "object",
+  "required": ["problem_ids", "phase", "granularity", "title", "content"],
+  "properties": {
+    "knowledge_id": { "type": "string" },
+    "problem_ids": { "type": "array", "items": { "type": "string" }},
+    "domain_ids": { "type": "array", "items": { "type": "string" }},
+    "phase": { "type": "string", "enum": ["diagnostics", "prophylaxis", "therapy"] },
+    "granularity": { "type": "string", "enum": ["full", "step"]},
+    "title": { "type": "string" },
+    "content": { "type": "string" },
+    "tags": { "type": "array", "items": { "type": "string" }},
+    "source": { "type": "string" },
+    "created_at": { "type": "string" }
+  }
+}
+

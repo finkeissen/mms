@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Problem Schema",
+  "type": "object",
+  "required": ["problem_id", "domain_id", "title", "question"],
+  "properties": {
+    "problem_id": { "type": "string" },
+    "domain_id": { "type": "string" },
+    "title": { "type": "string" },
+    "question": { "type": "string" },
+    "background": { "type": "string" },
+    "tags": { "type": "array", "items": { "type": "string" }},
+    "coordinate": { "type": "string" },
+    "detail_level": { "type": "number" }
+  }
+}
+

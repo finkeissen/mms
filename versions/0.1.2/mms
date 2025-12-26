@@ -1,0 +1,122 @@
+#!/usr/bin/env python3
+"""
+mms – Metamodell System Shell (Version aus VERSION-Datei)
+"""
+
+from __future__ import annotations
+
+import sys
+from typing import Callable, List, Dict
+
+from engine import layout
+
+# Engine-Kommandos
+from engine.folder_update import main as folder_update_main
+from engine.add_domains import main as domains_add_main
+from engine.add_problems import main as problems_add_main
+from engine.add_knowledge import main as knowledge_add_main
+from engine.link_problems import main as problems_link_main
+from engine.evaluate_quality import main as quality_check_main
+
+
+# ----------------------------------------------------------------------------
+# Hilfsfunktionen
+# ----------------------------------------------------------------------------
+
+def cmd_help(args: List[str]) -> int:
+    print("mms – Metamodell System Shell\n")
+    print("Verfügbare Befehle:\n")
+    print("  help                diese Hilfe")
+    print("  version             zeigt Versionsnummer\n")
+    print("  folder.update       erzeugt/verifiziert Ordnerstruktur\n")
+    print("  domains.add         aktualisiert Domains aus data/domains.jsonl")
+    print("  problems.add        aktualisiert Problems aus data/problems.jsonl")
+    print("  knowledge.add       aktualisiert Knowledge aus data/knowledge_base.jsonl")
+    print("  problems.link       verarbeitet Problem-Relationen aus data/problem_relations.jsonl")
+    print("  quality.check       führt Quality-Checks aus und schreibt Report in meta/qa_reports.log")
+    print("")
+    return 0
+
+
+def cmd_version(args: List[str]) -> int:
+    try:
+        version = layout.get_version()
+        print(f"MMS-Version: {version}")
+        return 0
+    except Exception as exc:
+        print(f"Fehler beim Lesen der VERSION-Datei: {exc}")
+        return 1
+
+
+def cmd_folder_update(args: List[str]) -> int:
+    return folder_update_main()
+
+
+def cmd_domains_add(args: List[str]) -> int:
+    return domains_add_main()
+
+
+def cmd_problems_add(args: List[str]) -> int:
+    return problems_add_main()
+
+
+def cmd_knowledge_add(args: List[str]) -> int:
+    return knowledge_add_main()
+
+
+def cmd_problems_link(args: List[str]) -> int:
+    return problems_link_main()
+
+
+def cmd_quality_check(args: List[str]) -> int:
+    return quality_check_main()
+
+
+# ----------------------------------------------------------------------------
+# Command-Tabelle
+# ----------------------------------------------------------------------------
+
+COMMANDS: Dict[str, Callable[[List[str]], int]] = {
+    "help": cmd_help,
+    "version": cmd_version,
+
+    "folder.update": cmd_folder_update,
+
+    "domains.add": cmd_domains_add,
+    "problems.add": cmd_problems_add,
+    "knowledge.add": cmd_knowledge_add,
+
+    "problems.link": cmd_problems_link,
+
+    "quality.check": cmd_quality_check,
+    "quality_check": cmd_quality_check,
+}
+
+
+# ----------------------------------------------------------------------------
+# Main Dispatcher
+# ----------------------------------------------------------------------------
+
+def main(argv: List[str]) -> int:
+    if len(argv) < 2:
+        return cmd_help([])
+
+    command = argv[1]
+    args = argv[2:]
+
+    func = COMMANDS.get(command)
+    if func is None:
+        print(f"Unbekannter Befehl: {command}")
+        print("Verwende: ./mms help")
+        return 1
+
+    try:
+        return func(args)
+    except Exception as exc:
+        print(f"Fehler bei '{command}': {exc}")
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv))
+

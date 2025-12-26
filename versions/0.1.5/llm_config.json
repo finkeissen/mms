@@ -1,0 +1,29 @@
+{
+  "version": "0.1.1",
+  "default_backend": "dummy",
+  "default_model": "mms-dummy-0.1",
+  "tasks": {
+    "generate_domains": {
+      "backend": "dummy",
+      "model": "mms-dummy-0.1"
+    },
+    "generate_problems": {
+      "backend": "dummy",
+      "model": "mms-dummy-0.1"
+    },
+    "enrich_problem": {
+      "backend": "dummy",
+      "model": "mms-dummy-0.1"
+    },
+    "link_problems": {
+      "backend": "dummy",
+      "model": "mms-dummy-0.1"
+    },
+    "evaluate_quality": {
+      "backend": "dummy",
+      "model": "mms-dummy-0.1"
+    }
+  },
+  "extra": {}
+}
+

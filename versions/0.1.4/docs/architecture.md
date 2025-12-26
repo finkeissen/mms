@@ -1,0 +1,3 @@
+# Architektur
+
+TODO: Architektur-Dokumentation.

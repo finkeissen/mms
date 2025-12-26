@@ -1,0 +1,12 @@
+ {"id":"Selbst","label":"Selbst & Identität","dimension_id":"ICH"}
+{"id":"Inneres","label":"Innere Dynamiken","dimension_id":"ICH"}
+{"id":"Körper","label":"Körper & Gesundheit","dimension_id":"ICH"}
+{"id":"Werte","label":"Werte & Moral","dimension_id":"ICH"}
+{"id":"Sinn","label":"Sinn & Orientierung","dimension_id":"ICH"}
+
+{"id":"Soziales","label":"Soziale Beziehungen","dimension_id":"WELT"}
+{"id":"Handlung","label":"Handlung & Arbeit","dimension_id":"WELT"}
+{"id":"Materielles","label":"Finanzen & Besitz","dimension_id":"WELT"}
+
+{"id":"Kultur","label":"Kultur & Gesellschaft","dimension_id":"SYSTEM"}
+

@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Domain Schema",
+  "type": "object",
+  "required": [
+    "domain_id",
+    "title",
+    "description",
+    "coordinate",
+    "type"
+  ],
+  "properties": {
+    "domain_id": {
+      "type": "string",
+      "description": "Maschinenlesbare ID der Domäne (snake_case, eindeutig)."
+    },
+    "title": {
+      "type": "string",
+      "description": "Menschlich lesbarer Titel der Domäne."
+    },
+    "description": {
+      "type": "string",
+      "description": "Kurzbeschreibung der Domäne."
+    },
+    "coordinate": {
+      "type": "string",
+      "description": "Hauptkoordinate im MMS (z.B. körperlich, geistig, emotional, sozial, ökonomisch, zeitlich, existentiell)."
+    },
+    "type": {
+      "type": "string",
+      "enum": ["static", "generated"],
+      "description": "Herkunft der Domäne: static = von Menschen definierte Grunddomäne, generated = vom MMS erzeugte Arbeitsdomäne."
+    },
+    "jurisdiction": {
+      "type": "string",
+      "description": "Optional: Rechtskreis oder Zuständigkeit, z.B. DE_BUND, DE_LAND, EU."
+    },
+    "level": {
+      "type": "string",
+      "description": "Optional: Abstraktionsebene der Domäne (z.B. hauptgebiet, teilgebiet, spezialgebiet)."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Optionale Schlagworte."
+    },
+    "origin": {
+      "type": "string",
+      "description": "Optional: Herkunft/Quelle der Domäne, z.B. human, system, migration_0_1."
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Optional: ISO-8601 Zeitstempel der Anlage."
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "Optional: ISO-8601 Zeitstempel der letzten Änderung."
+    }
+  },
+  "additionalProperties": false
+}
+

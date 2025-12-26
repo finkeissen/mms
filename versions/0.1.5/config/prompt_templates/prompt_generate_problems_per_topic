@@ -1,0 +1,35 @@
+Du bist ein Experte für präzise, wissenschaftliche Problemzerlegung.
+
+Topic: TOPIC_PLATZHALTER
+
+Erstelle eine vollständige, überschneidungsfreie Liste aller atomaren, konkreten Forschungs-/Entwicklungs-/Praxisprobleme in diesem Topic (Stand 2025–2035).
+
+Strenge Regeln (genau einhalten):
+- Jedes Problem ist 1 Satz, maximal 18 Wörter.
+- Jedes Problem ist konkret lösbar oder zumindest empirisch angreifbar.
+- Keine generischen Probleme wie „Mehr Forschung nötig“, „Bewusstsein schaffen“, „Finanzierung“.
+- Keine Wiederholung von Begriffen aus dem Topic-Namen.
+- Kein Problem darf sich mit einem anderen inhaltlich überschneiden oder Teilmenge sein.
+- Keine politischen, ethischen oder rechtlichen Probleme (nur wissenschaftlich/technisch).
+- Keine Duplikate oder Paraphrasen.
+- Reihenfolge nach absteigender Dringlichkeit/Impact.
+
+Ausgabeformat (zwingend exakt so – nichts anderes, keine Erklärung, kein Markdown):
+
+{"problem_id":"P001","problem":"Genauer Biomarker für biologisches vs. chronologisches Alter fehlt."}
+{"problem_id":"P002","problem":"Senolytika verursachen systemische Nebenwirkungen bei Langzeitanwendung."}
+{"problem_id":"P003","problem":"Partielle Reprogrammierung ohne Krebsrisiko nicht etabliert."}
+...
+
+Erstelle jetzt die komplette Liste für das Topic:
+TOPIC_PLATZHALTER
+
+
+
+
+{"problem_id":"P001","problem":"Selektive Eliminierung seneszenter Zellen ohne Immunsuppression ungelöst."}
+{"problem_id":"P002","problem":"Pharmakokinetik von Senolytika im Gehirn unzureichend erforscht."}
+{"problem_id":"P003","problem":"Langzeitfolgen wiederholter Senolytika-Gabe unbekannt."}
+{"problem_id":"P004","problem":"Identifikation seneszenter Zellen in vivo nicht präzise genug."}
+{"problem_id":"P005","problem":"Senolytika-Resistenz-Mechanismen bei Tumorzellen unklar."}
+...

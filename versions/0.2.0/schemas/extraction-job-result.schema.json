@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/extraction-job-result.schema.json",
+  "title": "MMS Extraction Job Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["job", "result", "provenance"],
+  "properties": {
+    "job": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["job_id", "job_type", "version", "inputs", "constraints"],
+      "properties": {
+        "job_id": { "type": "string", "minLength": 1 },
+        "job_type": {
+          "type": "string",
+          "enum": ["domain", "subdomain", "problem_area", "atomic_problem", "problem_detail"]
+        },
+        "version": { "type": "string", "enum": ["0.1"] },
+        "inputs": { "type": "object" },
+        "constraints": { "type": "object" }
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "items", "stop_reason", "errors"],
+      "properties": {
+        "status": { "type": "string", "enum": ["ok", "stop", "error"] },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/item" },
+          "default": []
+        },
+        "stop_reason": { "type": ["string", "null"] },
+        "errors": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/error" },
+          "default": []
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "ok" } }, "required": ["status"] },
+          "then": {
+            "properties": { "stop_reason": { "const": null } }
+          }
+        },
+        {
+          "if": { "properties": { "status": { "const": "stop" } }, "required": ["status"] },
+          "then": {
+            "properties": {
+              "items": { "maxItems": 0 },
+              "stop_reason": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "status": { "const": "error" } }, "required": ["status"] },
+          "then": {
+            "properties": {
+              "errors": { "minItems": 1 }
+            }
+          }
+        }
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "model", "prompt_id", "created_at", "input_hash"],
+      "properties": {
+        "run_id": { "type": "string", "minLength": 1 },
+        "model": { "type": "string", "minLength": 1 },
+        "prompt_id": { "type": "string", "minLength": 1 },
+        "created_at": { "type": "string", "format": "date-time" },
+        "input_hash": { "type": "string", "minLength": 8 }
+      }
+    }
+  },
+  "$defs": {
+    "item": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["id", "parent_id", "title", "summary", "scope", "tags"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "parent_id": { "type": ["string", "null"] },
+        "title": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 1 },
+        "scope": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message"],
+      "properties": {
+        "code": { "type": "string", "minLength": 1 },
+        "message": { "type": "string", "minLength": 1 },
+        "details": { "type": ["object", "string", "null"] }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,111 @@
+#!/usr/bin/env python3
+"""
+mms – Matrix Management System Shell (0.1.3)
+
+Minimaler CLI-Einstiegspunkt.
+Bietet NUR die in README 0.1.3 definierten Kommandos:
+
+- version
+- domains.add
+- problems.add
+- knowledge.add
+"""
+
+from __future__ import annotations
+
+import sys
+from typing import Callable, Dict, List
+
+from engine.utils.layout import get_version
+
+# Pipeline-Kommandos
+from engine.add_domains import main as domains_add_main
+from engine.add_problems import main as problems_add_main
+from engine.add_knowledge import main as knowledge_add_main
+
+
+# ---------------------------------------------------------------------------
+# Hilfsfunktionen
+# ---------------------------------------------------------------------------
+
+def cmd_help(_: List[str]) -> int:
+    print("mms – Matrix Management System Shell (0.1.3)\n")
+    print("Verfügbare Befehle:\n")
+    print("  help                zeigt diese Hilfe")
+    print("  version             zeigt die MMS-Versionsnummer\n")
+    print("  domains.add         verarbeitet facts/domains.jsonl")
+    print("  problems.add        verarbeitet facts/problems/<domain>.jsonl")
+    print("  knowledge.add       verarbeitet facts/knowledge/<problem>.jsonl")
+    print("")
+    return 0
+
+
+def cmd_version(_: List[str]) -> int:
+    try:
+        print(f"MMS-Version: {get_version()}")
+        return 0
+    except Exception as exc:
+        print(f"Fehler beim Lesen der Version: {exc}")
+        return 1
+
+
+# ---------------------------------------------------------------------------
+# Wrapper für Pipeline-Kommandos
+# ---------------------------------------------------------------------------
+
+def cmd_domains_add(args: List[str]) -> int:
+    return domains_add_main(args)
+
+
+def cmd_problems_add(args: List[str]) -> int:
+    return problems_add_main(args)
+
+
+def cmd_knowledge_add(args: List[str]) -> int:
+    return knowledge_add_main(args)
+
+
+# ---------------------------------------------------------------------------
+# Command-Tabelle
+# ---------------------------------------------------------------------------
+
+COMMANDS: Dict[str, Callable[[List[str]], int]] = {
+    "help": cmd_help,
+    "version": cmd_version,
+    "domains.add": cmd_domains_add,
+    "problems.add": cmd_problems_add,
+    "knowledge.add": cmd_knowledge_add,
+}
+
+
+# ---------------------------------------------------------------------------
+# Main Dispatcher
+# ---------------------------------------------------------------------------
+
+def main(argv: List[str]) -> int:
+    if len(argv) < 2:
+        return cmd_help([])
+
+    command = argv[1]
+    args = argv[2:]
+
+    # Standard-Help
+    if command in ("-h", "--help"):
+        return cmd_help(args)
+
+    func = COMMANDS.get(command)
+    if func is None:
+        print(f"Unbekannter Befehl: {command}")
+        print("Verwende: ./mms help")
+        return 1
+
+    try:
+        return func(args)
+    except Exception as exc:
+        print(f"Fehler bei '{command}': {exc}")
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv))
+

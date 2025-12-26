@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mms.local/schema/metadata.schema.json",
+  "title": "Metadata",
+  "description": "Standard-Metadaten für MMS-Objekte",
+  "type": "object",
+
+  "required": [
+    "version",
+    "created_at",
+    "origin"
+  ],
+
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Versionsnummer des Eintrags, z.B. '0.1.1'"
+    },
+
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Zeitstempel der Erzeugung im ISO-8601-Format"
+    },
+
+    "origin": {
+      "type": "string",
+      "enum": ["human", "llm", "merged", "imported"],
+      "description": "Ursprung des Eintrags"
+    }
+  }
+}
+

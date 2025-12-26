@@ -1,0 +1,81 @@
+{"problem_id": "PR-MED-001", "domain_id": "X006", "title": "Diabetes mellitus Typ 2", "description": "Chronische Stoffwechselerkrankung mit Insulinresistenz und relativer Insulinsekretion, führt langfristig zu Gefäß- und Nervenschäden.", "tags": ["diabetes", "stoffwechsel", "chronisch"], "difficulty": "medium", "origin": "llm"}
+{"problem_id": "PR-MED-002", "domain_id": "X006", "title": "Diabetes mellitus Typ 1", "description": "Autoimmunerkrankung mit absolutem Insulinmangel durch Zerstörung der Betazellen im Pankreas.", "tags": ["autoimmun", "stoffwechsel"], "difficulty": "medium", "origin": "llm"}
+{"problem_id": "PR-MED-003", "domain_id": "X006", "title": "Essentielle Hypertonie", "description": "Dauerhaft erhöhter Blutdruck ohne identifizierbare organische Ursache; Risikofaktor für Herz-Kreislauf-Erkrankungen.", "tags": ["hypertonie", "kardiovaskulär"], "difficulty": "low", "origin": "llm"}
+{"problem_id": "PR-MED-004", "domain_id": "X006", "title": "Koronare Herzkrankheit", "description": "Atherosklerotische Veränderungen der Herzkranzgefäße führen zu Minderperfusion des Herzmuskels.", "tags": ["herz", "ischämie"], "difficulty": "high", "origin": "llm"}
+{"problem_id": "PR-MED-005", "domain_id": "X006", "title": "Myokardinfarkt", "description": "Akuter Gefäßverschluss eines Koronargefäßes mit Nekrose von Herzmuskelgewebe.", "tags": ["infarkt", "kardiologie"], "difficulty": "high", "origin": "llm"}
+{"problem_id": "PR-MED-006", "domain_id": "X006", "title": "Schlaganfall (ischämisch)", "description": "Akute Hirndurchblutungsstörung durch Gefäßverschluss, verursacht neurologische Defizite.", "tags": ["neurologie", "ischämie"], "difficulty": "high", "origin": "llm"}
+{"problem_id": "PR-MED-007", "domain_id": "X006", "title": "Schlaganfall (hämorrhagisch)", "description": "Akute Blutung im Hirngewebe oder Subarachnoidalraum, führt zu neuronaler Schädigung.", "tags": ["neurologie", "blutung"], "difficulty": "high", "origin": "llm"}
+{"problem_id": "PR-MED-008", "domain_id": "X006", "title": "Asthma bronchiale", "description": "Chronisch-entzündliche Atemwegserkrankung mit reversibler Atemwegsobstruktion.", "tags": ["lungen", "entzündung"], "difficulty": "medium", "origin": "llm"}
+{"problem_id": "PR-MED-009", "domain_id": "X006", "title": "COPD", "description": "Progressive Atemwegserkrankung mit Emphysem und chronischer Bronchitis; meist durch Rauchen verursacht.", "tags": ["lungen", "chronisch"], "difficulty": "medium", "origin": "llm"}
+{"problem_id": "PR-MED-010", "domain_id": "X006", "title": "Lungenentzündung", "description": "Infektion des Lungenparenchyms durch Bakterien, Viren oder Pilze, führt zu Fieber und Atemnot.", "tags": ["infektion", "lungen"], "difficulty": "medium", "origin": "llm"}
+
+{"problem_id": "PR-MED-011", "domain_id": "X006", "title": "COVID-19 (akut)", "description": "Virale Atemwegsinfektion mit potenziell schwerem Verlauf, verursacht durch SARS-CoV-2.", "tags": ["virus", "infektion"], "difficulty": "medium", "origin": "llm"}
+{"problem_id": "PR-MED-012", "domain_id": "X006", "title": "COVID-19 Langzeitfolgen", "description": "Persistierende Symptome wie Fatigue, Atemnot, neurologische Beschwerden nach akuter Infektion.", "tags": ["postcovid", "multisystem"], "difficulty": "high", "origin": "llm"}
+
+{"problem_id": "PR-MED-013", "domain_id": "X006", "title": "Chronische Nierenerkrankung", "description": "Progressiver Verlust der Nierenfunktion über Monate bis Jahre; häufig durch Diabetes oder Hypertonie.", "tags": ["niere", "chronisch"], "difficulty": "high", "origin": "llm"}
+{"problem_id": "PR-MED-014", "domain_id": "X006", "title": "Akutes Nierenversagen", "description": "Schneller Verlust der Nierenfunktion, häufig prärenal, renal oder postrenal.", "tags": ["niere", "akut"], "difficulty": "high", "origin": "llm"}
+
+{"problem_id": "PR-MED-015", "domain_id": "X006", "title": "Gicht", "description": "Kristallarthropathie durch Harnsäureablagerungen in Gelenken.", "tags": ["stoffwechsel", "gelenke"], "difficulty": "low", "origin": "llm"}
+{"problem_id": "PR-MED-016", "domain_id": "X006", "title": "Rheumatoide Arthritis", "description": "Autoimmunentzündung der Gelenke mit fortschreitender Zerstörung.", "tags": ["gelenke", "autoimmun"], "difficulty": "medium", "origin": "llm"}
+
+{"problem_id": "PR-MED-017", "domain_id": "X006", "title": "Adipositas", "description": "Chronische Erkrankung mit übermäßigem Fettgewebe, BMI ≥ 30; Risikofaktor für metabolische Syndrome.", "tags": ["stoffwechsel", "ernährung"], "difficulty": "low", "origin": "llm"}
+{"problem_id": "PR-MED-018", "domain_id": "X006", "title": "Anorexia nervosa", "description": "Psychische Essstörung mit selbst herbeigeführtem Gewichtsverlust und Körperschemastörung.", "tags": ["psyche", "ernährung"], "difficulty": "high", "origin": "llm"}
+
+{"problem_id": "PR-MED-019", "domain_id": "X006", "title": "Depression", "description": "Affektive Störung mit gedrückter Stimmung, Antriebslosigkeit und kognitiven Verzerrungen.", "tags": ["psyche", "affekt"], "difficulty": "medium", "origin": "llm"}
+{"problem_id": "PR-MED-020", "domain_id": "X006", "title": "Schizophrenie", "description": "Psychose mit Wahn, Halluzinationen und gestörtem Realitätsbezug.", "tags": ["psyche", "psychose"], "difficulty": "high", "origin": "llm"}
+
+{"problem_id": "PR-MED-021", "domain_id": "X006", "title": "Alzheimer-Demenz", "description": "Neurodegenerative Erkrankung mit Gedächtnisverlust und Persönlichkeitsveränderung.", "tags": ["neurologie", "demenz"], "difficulty": "high", "origin": "llm"}
+{"problem_id": "PR-MED-022", "domain_id": "X006", "title": "Parkinson-Krankheit", "description": "Degeneration dopaminerger Neuronen führt zu Tremor, Rigor, Bradykinesie.", "tags": ["neurologie", "bewegungsstörung"], "difficulty": "high", "origin": "llm"}
+
+{"problem_id": "PR-MED-023", "domain_id": "X006", "title": "Epilepsie", "description": "Wiederkehrende Anfälle durch pathologische neuronale Entladungen.", "tags": ["neurologie", "anfall"], "difficulty": "medium", "origin": "llm"}
+{"problem_id": "PR-MED-024", "domain_id": "X006", "title": "Migräne", "description": "Neurologische Attacken mit Kopfschmerzen, Aura und vegetativen Symptomen.", "tags": ["neurologie", "kopfschmerz"], "difficulty": "medium", "origin": "llm"}
+
+{"problem_id": "PR-MED-025", "domain_id": "X006", "title": "Multiple Sklerose", "description": "Autoimmune Demyelinisierung des ZNS; schubförmiger oder progredienter Verlauf.", "tags": ["autoimmun", "neurologie"], "difficulty": "high", "origin": "llm"}
+
+{"problem_id": "PR-MED-026", "domain_id": "X006", "title": "Bronchialkarzinom (Lungenkrebs)", "description": "Maligner Tumor des Lungengewebes, häufig durch Rauchen verursacht.", "tags": ["krebs", "lungen"], "difficulty": "high", "origin": "llm"}
+{"problem_id": "PR-MED-027", "domain_id": "X006", "title": "Kolorektales Karzinom", "description": "Bösartiger Tumor des Dick- oder Enddarms; häufig genetisch und ernährungsbedingt beeinflusst.", "tags": ["krebs", "gastrointestinal"], "difficulty": "high", "origin": "llm"}
+
+{"problem_id": "PR-MED-028", "domain_id": "X006", "title": "Brustkrebs", "description": "Maligner Tumor des Brustgewebes; häufigste Krebsart bei Frauen.", "tags": ["krebs", "onkologie"], "difficulty": "high", "origin": "llm"}
+{"problem_id": "PR-MED-029", "domain_id": "X006", "title": "Prostatakrebs", "description": "Maligner Tumor der Prostata; häufigste Krebsart bei Männern.", "tags": ["krebs", "urologie"], "difficulty": "high", "origin": "llm"}
+
+{"problem_id": "PR-MED-030", "domain_id": "X006", "title": "Akute Leukämie", "description": "Maligne Proliferation unreifer Blutzellen im Knochenmark.", "tags": ["blut", "krebs"], "difficulty": "high", "origin": "llm"}
+
+{"problem_id": "PR-MED-031", "domain_id": "X006", "title": "Aplastische Anämie", "description": "Versagen der Blutbildung im Knochenmark.", "tags": ["hämatologie"], "difficulty": "high", "origin": "llm"}
+
+{"problem_id": "PR-MED-032", "domain_id": "X006", "title": "Magenulkus", "description": "Schleimhautschädigung im Magen durch Säure, Helicobacter pylori oder Medikamente.", "tags": ["gastrointestinal"], "difficulty": "medium", "origin": "llm"}
+{"problem_id": "PR-MED-033", "domain_id": "X006", "title": "Reizdarmsyndrom", "description": "Funktionelle Darmstörung ohne organische Ursache; Bauchschmerzen, Darmmotilitätsstörungen.", "tags": ["gastrointestinal"], "difficulty": "medium", "origin": "llm"}
+
+{"problem_id": "PR-MED-034", "domain_id": "X006", "title": "Leberzirrhose", "description": "Endstadium chronischer Lebererkrankungen, oft durch Alkohol oder Hepatitis.", "tags": ["leber", "fibrose"], "difficulty": "high", "origin": "llm"}
+
+{"problem_id": "PR-MED-035", "domain_id": "X006", "title": "Chronische Hepatitis B", "description": "Persistierende HBV-Infektion mit Risiko für Leberversagen und Karzinom.", "tags": ["virus", "leber"], "difficulty": "medium", "origin": "llm"}
+
+{"problem_id": "PR-MED-036", "domain_id": "X006", "title": "HIV-Infektion", "description": "Retrovirale Infektion mit progressiver Immunschwäche; unbehandelt führt sie zu AIDS.", "tags": ["virus", "immundefizienz"], "difficulty": "high", "origin": "llm"}
+
+{"problem_id": "PR-MED-037", "domain_id": "X006", "title": "Tuberkulose", "description": "Bakterielle Infektion durch Mycobacterium tuberculosis mit Befall der Lunge und anderer Organe.", "tags": ["infektion", "lungen"], "difficulty": "high", "origin": "llm"}
+
+{"problem_id": "PR-MED-038", "domain_id": "X006", "title": "Sepsis", "description": "Systemische Immunreaktion auf Infektion, führt zu Organdysfunktion und Schock.", "tags": ["systemisch", "infektion"], "difficulty": "high", "origin": "llm"}
+
+{"problem_id": "PR-MED-039", "domain_id": "X006", "title": "Akute Appendizitis", "description": "Akute Entzündung des Wurmfortsatzes mit typischen rechtsseitigen Bauchschmerzen.", "tags": ["chirurgie"], "difficulty": "low", "origin": "llm"}
+
+{"problem_id": "PR-MED-040", "domain_id": "X006", "title": "Gallensteinkolik", "description": "Verlegung der Gallenwege durch Konkremente mit kolikartigen Schmerzen.", "tags": ["gastrointestinal"], "difficulty": "medium", "origin": "llm"}
+
+{"problem_id": "PR-MED-041", "domain_id": "X006", "title": "Pankreatitis", "description": "Akute oder chronische Entzündung der Bauchspeicheldrüse, meist durch Alkohol oder Gallensteine ausgelöst.", "tags": ["gastrointestinal"], "difficulty": "high", "origin": "llm"}
+
+{"problem_id": "PR-MED-042", "domain_id": "X006", "title": "Schilddrüsenunterfunktion", "description": "Mangel an Schilddrüsenhormonen; führt zu Müdigkeit, Bradykardie und Gewichtszunahme.", "tags": ["endokrin"], "difficulty": "low", "origin": "llm"}
+
+{"problem_id": "PR-MED-043", "domain_id": "X006", "title": "Hyperthyreose", "description": "Überproduktion von Schilddrüsenhormonen, verursacht Unruhe, Tachykardie und Tremor.", "tags": ["endokrin"], "difficulty": "medium", "origin": "llm"}
+
+{"problem_id": "PR-MED-044", "domain_id": "X006", "title": "Osteoporose", "description": "Verringerte Knochendichte mit erhöhtem Frakturrisiko.", "tags": ["knochen"], "difficulty": "low", "origin": "llm"}
+
+{"problem_id": "PR-MED-045", "domain_id": "X006", "title": "Eisenmangelanämie", "description": "Mangel an Eisen führt zur reduzierten Hämoglobinsynthese.", "tags": ["blut"], "difficulty": "low", "origin": "llm"}
+
+{"problem_id": "PR-MED-046", "domain_id": "X006", "title": "Allergische Rhinitis", "description": "Immunreaktion auf Allergene, führt zu Niesen, Rhinorrhoe und Schleimhautentzündung.", "tags": ["allergie"], "difficulty": "low", "origin": "llm"}
+
+{"problem_id": "PR-MED-047", "domain_id": "X006", "title": "Akute Tonsillitis", "description": "Entzündung der Gaumenmandeln, meist viral oder bakteriell verursacht.", "tags": ["infektion"], "difficulty": "low", "origin": "llm"}
+
+{"problem_id": "PR-MED-048", "domain_id": "X006", "title": "Otitis media", "description": "Mittelohrentzündung, häufig bei Kindern; verursacht Schmerzen und Fieber.", "tags": ["infektion"], "difficulty": "low", "origin": "llm"}
+
+{"problem_id": "PR-MED-049", "domain_id": "X006", "title": "Dermatitis atopica", "description": "Chronisch-entzündliche Hauterkrankung mit Juckreiz und Ekzemen.", "tags": ["haut", "entzündung"], "difficulty": "medium", "origin": "llm"}
+
+{"problem_id": "PR-MED-050", "domain_id": "X006", "title": "Psoriasis vulgaris", "description": "Chronische, immunvermittelte Hauterkrankung mit schuppenden Plaques.", "tags": ["haut", "autoimmun"], "difficulty": "medium", "origin": "llm"}
+

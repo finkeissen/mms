@@ -1,0 +1,59 @@
+ {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mms.local/schema/domain_hierarchy.schema.json",
+  "title": "DomainHierarchy",
+  "description": "Hierarchische Überstruktur der MMS-Domains",
+  "type": "object",
+
+  "required": [
+    "dimensions"
+  ],
+
+  "properties": {
+    "dimensions": {
+      "type": "array",
+      "description": "Oberste Ebene: ICH, WELT, SYSTEM",
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "bereiche"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": ["ICH", "WELT", "SYSTEM"]
+          },
+          "label": {
+            "type": "string"
+          },
+          "bereiche": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "label", "ebenen"],
+              "properties": {
+                "id": { "type": "string" },
+                "label": { "type": "string" },
+                "ebenen": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["id", "label"],
+                    "properties": {
+                      "id": { "type": "string" },
+                      "label": { "type": "string" },
+                      "domains": {
+                        "type": "array",
+                        "description": "Liste von Domain-IDs, die hierher gehören",
+                        "items": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
