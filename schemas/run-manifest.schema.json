@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/mms/schemas/run-manifest.schema.json",
+  "title": "MMS Run Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "record_type",
+    "run_id",
+    "started_at",
+    "inputs",
+    "modes",
+    "outputs",
+    "outcome"
+  ],
+  "properties": {
+    "schema": { "type": "string", "const": "mms.run-manifest.v0.1" },
+    "record_type": { "type": "string", "const": "run_manifest" },
+
+    "run_id": {
+      "type": "string",
+      "minLength": 8,
+      "description": "Stable run identity."
+    },
+
+    "matrix_id": {
+      "type": "string",
+      "description": "Identifier of the Matrix instantiation this run belongs to."
+    },
+
+    "profile": {
+      "type": "string",
+      "enum": ["PRODUCER", "ENRICHER", "TRANSLATOR", "MIXED"],
+      "description": "High-level classification of the run."
+    },
+
+    "started_at": { "type": "string", "format": "date-time" },
+    "finished_at": { "type": "string", "format": "date-time" },
+
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sources"],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/source_snapshot" }
+        }
+      }
+    },
+
+    "modes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/mode_ref" },
+      "description": "All modes used in this run (auditable)."
+    },
+
+    "outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifacts"],
+      "properties": {
+        "artifacts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/artifact_ref" }
+        }
+      }
+    },
+
+    "outcome": {
+      "type": "string",
+      "enum": ["SUCCESS", "NOCLAIM", "UNKNOWN", "CONFLICT", "STOP"],
+      "description": "Descriptive run outcome (not evaluative)."
+    },
+
+    "notes": { "type": "string" },
+
+    "translator": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "is_translator_run": { "type": "boolean" },
+        "source_matrix_id": { "type": "string" },
+        "source_run_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 8 }
+        },
+        "ruleset_id": {
+          "type": "string",
+          "description": "Identifier of the translation rules or mapping."
+        }
+      },
+      "description": "Only used for explicit translator runs."
+    }
+  },
+
+  "$defs": {
+    "source_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "type"],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 4,
+          "description": "Stable identifier of the frozen input (snapshot)."
+        },
+        "type": {
+          "type": "string",
+          "enum": ["document", "dataset", "web", "transcript", "llm", "other"]
+        },
+        "hash": {
+          "type": "string",
+          "description": "Optional content hash for immutability checking."
+        },
+        "locator": {
+          "type": "string",
+          "description": "Optional pointer (path/url) to the frozen snapshot location."
+        }
+      }
+    },
+
+    "mode_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "profile"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Concrete mode name/config identifier."
+        },
+        "profile": {
+          "type": "string",
+          "enum": ["PRODUCER", "ENRICHER", "TRANSLATOR"],
+          "description": "Permission class of the mode."
+        },
+        "version": {
+          "type": "string",
+          "description": "Optional version identifier of the mode implementation."
+        },
+        "config_ref": {
+          "type": "string",
+          "description": "Optional pointer to config snapshot (file path, id)."
+        }
+      }
+    },
+
+    "artifact_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "path"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["claims", "relations", "conflicts", "report", "log", "snapshot", "other"]
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Relative path within the run directory."
+        },
+        "content_type": {
+          "type": "string",
+          "description": "Optional MIME type (e.g. application/json, text/plain)."
+        }
+      }
+    }
+  }
+}
+

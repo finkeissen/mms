@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/mms/schemas/claim.schema.json",
+  "title": "MMS Claim Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "record_type",
+    "claim_id",
+    "run_id",
+    "assertion",
+    "provenance",
+    "context",
+    "temporal",
+    "status",
+    "created_at"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "mms.claim.v0.1"
+    },
+    "record_type": {
+      "type": "string",
+      "const": "claim"
+    },
+
+    "claim_id": {
+      "type": "string",
+      "minLength": 8,
+      "description": "Stable canonical claim identity. Must not change once created."
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 8,
+      "description": "The run that produced or accepted this claim."
+    },
+
+    "assertion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text"],
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The propositional content of the claim (no truth semantics)."
+        },
+        "language": {
+          "type": "string",
+          "minLength": 2,
+          "description": "Optional BCP-47-ish language tag, e.g. 'en', 'de'."
+        },
+        "subject": {
+          "type": "string",
+          "description": "Optional compact subject label if available (non-authoritative)."
+        }
+      }
+    },
+
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sources"],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/source_ref" },
+          "description": "At least one attributable source reference."
+        },
+        "extraction": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Optional extraction metadata (model/tool/prompt hash, parser version, etc.)."
+        }
+      }
+    },
+
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope"],
+      "properties": {
+        "domain": {
+          "type": "string",
+          "description": "Optional domain label (non-authoritative)."
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Conditions/assumptions under which the claim applies."
+        },
+        "assumptions": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Optional explicit assumption strings."
+        }
+      }
+    },
+
+    "temporal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["asserted_at"],
+      "properties": {
+        "asserted_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp for when the claim is asserted in its provenance context (not necessarily 'true')."
+        },
+        "valid_from": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Optional start of applicability window (if defined by source)."
+        },
+        "valid_to": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Optional end of applicability window (if defined by source)."
+        }
+      }
+    },
+
+    "status": {
+      "type": "string",
+      "enum": ["ASSERTED", "CONFLICTING", "UNKNOWN", "NOCLAIM"],
+      "description": "Operational marker (no truth semantics)."
+    },
+
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this record was created (append-only)."
+    },
+
+    "notes": {
+      "type": "string",
+      "description": "Optional human-readable notes; non-normative."
+    },
+
+    "links": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/link_ref" },
+      "description": "Optional outward references (urls, doc IDs, etc.)."
+    }
+  },
+
+  "$defs": {
+    "source_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "type"],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 4,
+          "description": "Stable identifier of a frozen source snapshot."
+        },
+        "type": {
+          "type": "string",
+          "enum": ["document", "dataset", "web", "transcript", "llm", "other"]
+        },
+        "locator": {
+          "type": "string",
+          "description": "Optional pointer into the source (page, section, url, offset)."
+        },
+        "quoted": {
+          "type": "string",
+          "description": "Optional short excerpt; must not be treated as authoritative."
+        }
+      }
+    },
+    "link_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "value"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["url", "doi", "isbn", "internal", "other"]
+        },
+        "value": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}
+

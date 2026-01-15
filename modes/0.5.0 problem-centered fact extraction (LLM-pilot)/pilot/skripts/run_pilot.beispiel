@@ -1,0 +1,11 @@
+python mms/versions/0.5.0/pilot/scripts/run_pilot.py \
+  --provider openai \
+  --model gpt-5.2 \
+  --temperature 0.0 \
+  --problems-dir mms/versions/0.5.0/pilot/problems \
+  --contexts-dir mms/versions/0.5.0/pilot/contexts \
+  --outputs-dir mms/versions/0.5.0/pilot/outputs \
+  --record-schema mms/versions/0.4.0/jsonl/record.schema.json \
+  --extract-prompt mms/versions/0.5.0/pilot/prompts/extract-facts.v0.1.md \
+  --prompt-id mms.pilot.extract_facts.v0.1
+

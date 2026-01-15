@@ -1,0 +1,15 @@
+pipeline:
+  stages:
+    - setup
+    - freeze_sources
+    - extract_candidates
+    - canonicalize
+    - link_relations
+    - detect_conflicts
+    - publish
+modes:
+  producer: producer.prompt.demo.v0
+  enrichers:
+    - enricher.linking.demo.v0
+    - enricher.conflict.demo.v0
+

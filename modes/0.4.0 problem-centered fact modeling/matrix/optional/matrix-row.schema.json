@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/mms/0.4.0/matrix/matrix-row.schema.json",
+  "title": "MMS 0.4.0 — Matrix Row (Fact×Source View)",
+  "description": "Schema for one row of a Fact×Source matrix derived from MMS fact records. This is a derived view, not a primary storage format.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_type",
+    "matrix_id",
+    "fact_key",
+    "by_source"
+  ],
+  "properties": {
+    "record_type": {
+      "type": "string",
+      "const": "mms.matrix_row",
+      "description": "Discriminator identifying this object as a matrix row."
+    },
+
+    "matrix_id": {
+      "type": "string",
+      "description": "Identifier of the matrix export run or snapshot (e.g. timestamp or run id).",
+      "minLength": 1
+    },
+
+    "fact_key": {
+      "type": "string",
+      "description": "Deterministic key used to group fact records referring to the same fact candidate.",
+      "minLength": 8
+    },
+
+    "claim_canonical": {
+      "type": "object",
+      "description": "Optional canonical representation of the claim for human readability.",
+      "additionalProperties": false,
+      "required": ["text", "language"],
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "language": {
+          "type": "string",
+          "minLength": 2
+        }
+      }
+    },
+
+    "by_source": {
+      "type": "object",
+      "description": "Mapping from source_id to matrix cell information.",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "record_ids"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Aggregated status of this fact for the given source.",
+            "enum": [
+              "asserted",
+              "unknown",
+              "no-claim",
+              "conflicting"
+            ]
+          },
+          "record_ids": {
+            "type": "array",
+            "description": "List of fact record IDs contributing to this cell.",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "notes": {
+            "type": "string",
+            "description": "Optional operational notes about this matrix cell."
+          }
+        }
+      }
+    },
+
+    "meta": {
+      "type": "object",
+      "description": "Optional metadata about matrix generation.",
+      "additionalProperties": false,
+      "properties": {
+        "generated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "mms_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "rp_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        }
+      }
+    }
+  }
+}
+

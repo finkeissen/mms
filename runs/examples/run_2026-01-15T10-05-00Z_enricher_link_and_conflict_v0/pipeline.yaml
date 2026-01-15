@@ -1,0 +1,17 @@
+pipeline:
+  profile: ENRICHER
+  stages:
+    - setup_manifest
+    - load_claims
+    - link_relations
+    - detect_conflicts
+    - publish
+modes:
+  enrichers:
+    - name: enricher_linking_v0
+      purpose: create structural links between claims
+    - name: enricher_conflict_v0
+      purpose: create explicit conflict records under a defined scope
+inputs:
+  claims_dataset: ../run_2026-01-15T10-00-00Z_producer_extract_facts_v0/claims.jsonl
+

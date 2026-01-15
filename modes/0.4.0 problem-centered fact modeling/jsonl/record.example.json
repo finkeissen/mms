@@ -1,0 +1,31 @@
+{
+  "record_type": "mms.fact_record",
+  "record_id": "01JH2K7Z1VJQ5Q8N0K2H3F3X8A",
+  "mms_version": "0.4.0",
+  "rp_version": "0.4.0",
+  "created_at": "2025-12-31T12:00:00Z",
+  "status": "asserted",
+  "claim": {
+    "text": "Berlin ist die Hauptstadt von Deutschland.",
+    "language": "de",
+    "subject": { "label": "Berlin", "ref": "geo:berlin" },
+    "time": { "as_of": "2025-12-31T00:00:00Z" }
+  },
+  "source": {
+    "source_id": "https://example.org/sources/wiki-berlin",
+    "source_type": "document",
+    "locator": {
+      "url": "https://example.org/sources/wiki-berlin",
+      "doc_hash": "sha256:abcd1234",
+      "page": 1
+    }
+  },
+  "links": {
+    "related_to": ["01JH2K7YQ2F0J9E0K8Q7K2Z1P3"]
+  },
+  "quality": {
+    "schema_valid": true,
+    "has_locator": true
+  }
+}
+

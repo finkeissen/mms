@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/mms/schemas/conflict.schema.json",
+  "title": "MMS Conflict Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "record_type",
+    "conflict_id",
+    "run_id",
+    "claim_ids",
+    "scope",
+    "provenance",
+    "created_at"
+  ],
+  "properties": {
+    "schema": { "type": "string", "const": "mms.conflict.v0.1" },
+    "record_type": { "type": "string", "const": "conflict" },
+
+    "conflict_id": {
+      "type": "string",
+      "minLength": 8,
+      "description": "Stable identifier of this conflict record (append-only)."
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 8,
+      "description": "The run that produced this conflict record."
+    },
+
+    "claim_ids": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "type": "string", "minLength": 8 },
+      "description": "Claims involved in the incompatibility."
+    },
+
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text"],
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Context/assumptions under which the conflict is asserted."
+        },
+        "domain": {
+          "type": "string",
+          "description": "Optional domain label (non-authoritative)."
+        }
+      }
+    },
+
+    "classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "Optional conflict kind label (e.g. logical, empirical, definitional, scope-mismatch)."
+        },
+        "contested": {
+          "type": "boolean",
+          "description": "If true, conflict itself is disputed/uncertain."
+        }
+      }
+    },
+
+    "temporal": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "asserted_at": { "type": "string", "format": "date-time" }
+      }
+    },
+
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sources"],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/source_ref" }
+        },
+        "method": {
+          "type": "string",
+          "description": "Optional description of how the conflict was produced."
+        }
+      }
+    },
+
+    "created_at": { "type": "string", "format": "date-time" },
+
+    "notes": { "type": "string" }
+  },
+
+  "$defs": {
+    "source_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "type"],
+      "properties": {
+        "source_id": { "type": "string", "minLength": 4 },
+        "type": {
+          "type": "string",
+          "enum": ["document", "dataset", "web", "transcript", "llm", "other"]
+        },
+        "locator": { "type": "string" }
+      }
+    }
+  }
+}
+
