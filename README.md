@@ -1,189 +1,330 @@
 # Matrix Management System (MMS)
 
-**Version:** 0.2.0
-**Status:** Decision & Responsibility Structuring System (Experimental)
-**Authority:** None
+**Status:** Draft  
+**Current version:** 0.2.x  
+**Scope:** Conceptual architecture + reference structure  
+**Goal:** A DBMS-like system for epistemic artifacts (claims, relations, conflicts)
 
 ---
 
-## 1. Purpose of This Repository
+## What MMS Is
 
-The Matrix Management System (MMS) is an **experimental system** for
-integrating, structuring, and surfacing artifacts across domains.
+The **Matrix Management System (MMS)** is a system for managing
+**epistemic artifacts** under conditions of:
 
-MMS is **not a research program**.
-It does not define epistemic validity, truth, or legitimacy.
+- incomplete knowledge
+- conflicting sources
+- alternative interpretations
+- long-term revision and auditability
 
-Its role is to explore how **heterogeneous, domain-bound artifacts**
-can be combined into **explicit, inspectable, and revisable system views**,
-under clearly stated system assumptions.
+MMS does **not** decide what is true.
 
----
+Instead, it provides:
+- stable identities
+- explicit provenance
+- append-only history
+- explicit conflict representation
 
-## 2. Relationship to the Research Program
-
-MMS is **not a downstream consumer** of the research program.
-
-The two repositories serve **different and complementary roles**:
-
-- `research-program` defines **epistemic boundaries, interfaces, domain contracts, and STOP conditions**
-- `mms` explores **system-level integration, aggregation, and representation**
-
-There is **no implicit hierarchy** between them.
-
-Artifacts may be handed over from the research program to MMS
-only via **explicit, versioned, and traceable handover**.
-
-MMS must not silently inherit:
-- assumptions
-- boundaries
-- normativity
-- authority
-
-from the research program.
+MMS is closer to a **database system** than to an expert system.
+It is an infrastructure for *managing uncertainty*, not resolving it.
 
 ---
 
-## 3. MMS as a System-Level Integration Layer
+## Core Design Principle
 
-MMS explicitly allows the construction of integrated representations across domains.
+> **Nothing is silently decided.  
+> Everything is explicit, inspectable, and reversible by history.**
 
-These views may resemble:
-- knowledge bases
-- problem and solution spaces
-- operational or managerial representations
-- internal, system-scoped “world views”
+This principle applies uniformly to:
+- extraction
+- structure
+- conflicts
+- revisions
+- automation
 
-Such views are **system artifacts**, not epistemic truths.
-
-They are:
-- contingent
-- revisable
-- system-scoped
-- non-authoritative
-
-MMS does not claim that its integrated views are:
-- correct
-- complete
-- optimal
-- justified
-- legitimate
-
-They exist to support **system exploration and orientation**, not decision authority.
+There are no hidden defaults, implicit resolutions, or silent overwrites.
 
 ---
 
-## 4. Artifacts, Not Truth
+## MMS as a DBMS (Conceptual Analogy)
 
-All outputs of MMS are artifacts.
+MMS deliberately mirrors the architecture of a classical DBMS,
+but replaces *data* with *knowledge claims*.
 
-They may include:
-- structured representations
-- classifications
-- inferred or generated relationships
-- aggregated or synthesized views
+| DBMS Concept        | MMS Equivalent |
+|--------------------|----------------|
+| Table / Record     | Claim / Relation / Conflict |
+| Schema             | JSON Schema (kernel-bound) |
+| Transaction        | Run |
+| WAL / History      | Append-only run history |
+| Constraint Check   | Kernel Gate |
+| Index              | Derived, optional access layer |
+| Query Language     | External / out of scope |
+| Truth / Consistency| Explicitly **not enforced** |
 
-These artifacts:
-- are not knowledge claims
-- are not normative solutions
-- do not override domain-specific uncertainty
-- may contain conflicts, gaps, or contradictions
-
-Absence of information is allowed.
-Underdetermination is allowed.
-Failure to integrate is allowed.
-
----
-
-## 5. STOP and Underdetermination
-
-MMS recognizes **STOP** as a valid and expected state.
-
-STOP indicates:
-- insufficient input
-- unresolved conflict
-- incompatible domains
-- missing assumptions
-- deliberate refusal to integrate
-
-STOP is not a system error.
-STOP is a legitimate system outcome.
-
-MMS must preserve STOP conditions and their reasons.
-It must not auto-complete or repair them implicitly.
+This analogy is **architectural**, not literal.
+MMS borrows structural rigor, not epistemic authority.
 
 ---
 
-## 6. Domains in MMS
+## What MMS Manages
 
-In MMS, domains are treated as **system scopes**, not epistemic authorities.
+MMS manages exactly three **canonical artifact types**:
 
-They are used to:
-- partition artifacts
-- structure integration paths
-- constrain aggregation and visualization
+1. **Claims**  
+   Atomic assertions extracted from sources.
 
-Domain semantics originate outside MMS
-(e.g. in the research program or other external sources).
+2. **Relations**  
+   Structural links between claims (e.g. alternatives, dependencies).
 
-MMS does not define:
-- domain truth
-- domain correctness
-- domain legitimacy
+3. **Conflicts**  
+   Explicit representations of incompatibility between claims.
 
----
+These artifacts are:
+- append-only
+- schema-bound
+- provenance-rich
+- conflict-capable
+- never silently modified
 
-## 7. Use and Non-Use
-
-This repository may be used to:
-- experiment with large-scale artifact integration
-- explore system-level representations
-- make conflicts and trade-offs explicit
-- study consequences of integration choices
-
-This repository must not be used to:
-- justify decisions
-- delegate responsibility
-- claim correctness
-- replace expert judgment
-- assert authority
+Everything else is derived.
 
 ---
 
-## 8. Versioning and History
+## What MMS Explicitly Does NOT Do
 
-### 0.1.x — Exploratory System Prototype
-- focused on pipelines, generation, and structuring
-- used epistemically strong language (knowledge, solutions)
-- explored feasibility rather than role clarity
-- no explicit separation from research concerns
+MMS does **not**:
 
-### 0.2.x — Explicit World-View System (Current)
-- clear separation from the research program
-- explicit non-authoritative stance
-- MMS positioned as a **system-level integration space**
-- world views allowed as system constructs, not truths
-- STOP and underdetermination recognized as first-class outcomes
+- determine correctness or truth
+- rank, score, or weight claims
+- resolve conflicts automatically
+- enforce a global ontology
+- hide uncertainty
+- collapse alternatives
 
-Version numbers indicate **system evolution**, not epistemic progress.
-Breaking changes are allowed.
-Stability is local and provisional.
+All such operations may exist **outside** the MMS kernel,
+but never implicitly inside it.
+
+Any resolution must be explicit, reversible, and external.
 
 ---
 
-## 9. Final Note
+## Kernel, Process, and Roles
 
-MMS intentionally operates **after epistemic restraint**.
+MMS separates concerns strictly.
 
-It is a place where:
-- conflicts become visible
-- integration choices are made explicit
-- trade-offs are surfaced rather than hidden
-- coherence may be attempted, but is never assumed
+### Kernel
 
-Any appearance of a “world view” inside MMS
-is a **system construct**, not a claim about the world.
+The **Kernel** defines:
+- invariants
+- identity rules
+- append-only semantics
+- minimal structural guarantees
 
-Responsibility remains external.
-Authority remains external.
+The kernel is:
+- passive
+- non-intelligent
+- non-heuristic
 
+It validates structure, not meaning.
+
+---
+
+### Logical Process
+
+The **Logical Process** defines:
+- stages from extraction to publication
+- ordering constraints
+- allowed transitions
+- failure modes
+
+Processes do not decide truth.
+They only define *what may happen when*.
+
+---
+
+### Profiles and Modes
+
+**Profiles** define *who may do what*.
+**Modes** bundle profiles, tools, and processes into reproducible configurations.
+
+Profiles define **permissions**, not authority.
+No profile has epistemic priority.
+
+---
+
+## Runs: The Transaction Unit
+
+A **Run** is the atomic execution and audit unit of MMS.
+
+A run records:
+- inputs (sources, prior artifacts)
+- configuration (modes, prompts, tools)
+- outputs (claims, relations, conflicts)
+- outcome (e.g. SUCCESS, NOCLAIM, STOP)
+
+Runs are:
+- append-only
+- never modified or deleted
+- the sole origin of canonical artifacts
+
+> **No run, no claim.**
+
+---
+
+## Identity, Hashes, and Integrity
+
+MMS relies on **explicit identity**, not implicit context.
+
+Hashes are used to ensure:
+- source immutability
+- configuration traceability
+- reproducibility
+- integrity verification
+
+Hashes provide **identity and integrity**, not meaning or trust.
+
+---
+
+## Indices and Access (Derived, Optional)
+
+MMS does **not** define a central index.
+
+> **Indices are derived artifacts, not kernel objects.**
+
+They:
+- never add information
+- never resolve conflicts
+- may always be deleted and rebuilt
+
+The system remains valid without them.
+
+---
+
+## Automation and Tooling
+
+Automation in MMS is:
+- optional
+- external to the kernel
+- contract-bound
+
+Tools never bypass:
+- kernel invariants
+- append-only semantics
+- explicit run boundaries
+
+There is no hidden automation.
+
+---
+
+## Repository Structure (Conceptual)
+
+```text
+docs/        # Normative architecture and design
+schemas/     # Canonical JSON Schemas (kernel-bound)
+kernel/      # Core invariants and validation logic
+pipelines/   # Logical process definitions
+profiles/    # Role and permission definitions
+runs/        # Append-only execution records
+tools/       # Optional helper tools
+modes/       # Historical archive (non-canonical)
+```
+
+---
+
+## Position of MMS in the Repository Cascade
+
+MMS is **not a standalone epistemic system**.
+It is part of a **deliberately layered repository cascade**:
+
+```text
+research-program
+→ Matrix Management System (MMS)
+→ Matrix
+→ external decision-making systems
+```
+
+### research-program
+
+Defines the **epistemic rules of legitimacy**:
+- which kinds of claims are admissible
+- how disagreement must be represented
+- where reasoning must explicitly stop
+
+It produces **no results**, **no truth**, and **no conclusions**.
+
+### MMS (this repository)
+
+Implements the **operative handling rules** derived from the research-program.
+
+MMS:
+- manages claims, relations, and conflicts
+- enforces structure, provenance, and history
+- produces no truth, rankings, or decisions
+
+MMS is **not neutral** in the abstract sense:
+it is a concrete, rule-bound implementation.
+What remains non-negotiable is that it produces
+**no epistemic authority**.
+
+### Matrix
+
+The **Matrix** is the concrete, instantiational product
+generated by MMS runs.
+
+It represents:
+- what is claimed
+- by whom
+- when
+- under which assumptions
+- and in conflict with what
+
+The Matrix is **not truth**, **not authority**, and **not a decision**.
+
+---
+
+## Architectural Contract
+
+The cross-repository architectural contract
+and the precise responsibility boundaries between:
+
+- research-program
+- MMS
+- Matrix
+
+are defined in the following document:
+
+→ **README_research-program+mms+matrix.md**  
+(maintained in the `research-program` repository)
+
+That document is **authoritative for layering and responsibility**,
+but **not MMS-internal architecture**.
+
+For MMS-internal norms, see:
+- `ARCHITECTURE.md`
+- `DECISIONS.md`
+- `GLOSSARY.md`
+
+---
+
+## How to Work With This Repository
+
+All authoritative development happens in:
+- `docs/`
+- `schemas/`
+- `kernel/`
+- `pipelines/`
+- `profiles/`
+- `runs/`
+
+The `modes/` directory is preserved for historical traceability only.
+
+---
+
+## Summary
+
+MMS exists to **manage epistemically structured statements**
+under explicit rules of provenance, temporality, and conflict —
+without collapsing them into truth, consensus, or decision.
+
+If something feels implicit, it is probably wrong.

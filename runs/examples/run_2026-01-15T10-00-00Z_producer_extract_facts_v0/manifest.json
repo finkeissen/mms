@@ -1,0 +1,38 @@
+{
+  "schema": "mms.run-manifest.v0.1",
+  "record_type": "run_manifest",
+  "run_id": "run_2026-01-15T10-00-00Z_producer_extract_facts_v0",
+  "matrix_id": "matrix_canonical_v0",
+  "profile": "PRODUCER",
+  "started_at": "2026-01-15T10:00:00Z",
+  "finished_at": "2026-01-15T10:00:12Z",
+  "inputs": {
+    "sources": [
+      {
+        "source_id": "src_demo_doc_001",
+        "type": "document",
+        "hash": "sha256:deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+        "locator": "sources.list#L1"
+      }
+    ]
+  },
+  "modes": [
+    {
+      "name": "producer_extract_facts_v0",
+      "profile": "PRODUCER",
+      "version": "0.0.1",
+      "config_ref": "pipeline.yaml"
+    }
+  ],
+  "outputs": {
+    "artifacts": [
+      { "kind": "claims", "path": "claims.jsonl", "content_type": "application/jsonl" },
+      { "kind": "relations", "path": "relations.jsonl", "content_type": "application/jsonl" },
+      { "kind": "conflicts", "path": "conflicts.jsonl", "content_type": "application/jsonl" },
+      { "kind": "log", "path": "execution.log", "content_type": "text/plain" }
+    ]
+  },
+  "outcome": "SUCCESS",
+  "notes": "Canonical example run for MMS 0.2.x. Flat run directory. Producer-only."
+}
+

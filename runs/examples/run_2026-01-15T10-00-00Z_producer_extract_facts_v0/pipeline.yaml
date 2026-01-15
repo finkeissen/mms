@@ -1,0 +1,14 @@
+pipeline:
+  profile: PRODUCER
+  stages:
+    - setup_manifest
+    - freeze_sources
+    - extract_candidates
+    - canonicalize_gate
+    - publish
+modes:
+  producer:
+    name: producer_extract_facts_v0
+    type: prompt
+    prompt: pipelines/prompt/producer_extract_facts_v0/prompt.md
+

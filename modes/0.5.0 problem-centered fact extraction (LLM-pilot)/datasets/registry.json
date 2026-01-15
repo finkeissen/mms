@@ -1,0 +1,22 @@
+{
+  "registry_version": "0.1.0",
+  "datasets": [
+    {
+      "dataset_id": "domains",
+      "schema": "datasets/schema/domain.schema.json",
+      "storage": "git",
+      "uri": "git:https://github.com/<org>/mms-datasets",
+      "version": "v000001",
+      "sha256": "sha256:PLACEHOLDER"
+    },
+    {
+      "dataset_id": "subdomains",
+      "schema": "datasets/schema/subdomain.schema.json",
+      "storage": "git",
+      "uri": "git:https://github.com/<org>/mms-datasets",
+      "version": "v000001",
+      "sha256": "sha256:PLACEHOLDER"
+    }
+  ]
+}
+

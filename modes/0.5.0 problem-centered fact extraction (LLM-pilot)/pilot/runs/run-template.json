@@ -1,0 +1,45 @@
+{
+  "run_id": "run-YYYYMMDD-HHMMSSZ",
+  "mms_version": "0.5.0",
+  "rp_version": "0.4.0",
+  "started_at": "YYYY-MM-DDTHH:MM:SSZ",
+  "ended_at": "YYYY-MM-DDTHH:MM:SSZ",
+  "operator": {
+    "name": "",
+    "notes": ""
+  },
+  "llm": {
+    "provider": "",
+    "model": "",
+    "temperature": 0.0
+  },
+  "prompts": {
+    "extract_facts": {
+      "prompt_id": "mms.pilot.extract_facts.v0.1",
+      "prompt_hash": "sha256:..."
+    },
+    "conflict_probe": {
+      "prompt_id": "mms.pilot.conflict_probe.v0.1",
+      "prompt_hash": "sha256:..."
+    }
+  },
+  "inputs": {
+    "problems_path": "pilot/problems/",
+    "context_path": "pilot/contexts/",
+    "problem_ids": []
+  },
+  "outputs": {
+    "facts_jsonl_path": "pilot/outputs/facts.jsonl",
+    "run_report_path": "pilot/outputs/run-report.json"
+  },
+  "counters": {
+    "problems_processed": 0,
+    "fact_records_written": 0,
+    "status_asserted": 0,
+    "status_unknown": 0,
+    "status_no_claim": 0,
+    "errors": 0
+  },
+  "errors": []
+}
+

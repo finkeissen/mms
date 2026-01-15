@@ -1,0 +1,26 @@
+{
+  "handover_version": "0.3.0",
+  "source": "research-program",
+  "source_version": "0.4 (methodological) + 0.3 (conceptual baseline)",
+  "artifacts": [
+    {
+      "id": "RP-ART-0001",
+      "path": "path/to/artifact.json",
+      "type": "problem-graph",
+      "notes": "Example artifact handed over under explicit assumptions."
+    }
+  ],
+  "assumptions": [
+    "Artifacts are system inputs, not truth claims.",
+    "Evaluation follows research-program 0.4 criteria where applicable."
+  ],
+  "limits": [
+    "MMS does not validate epistemic truth.",
+    "Conflicts and gaps may remain unresolved."
+  ],
+  "stop_conditions": [
+    "Insufficient assumptions for integration.",
+    "Incompatible domains without explicit translation."
+  ]
+}
+

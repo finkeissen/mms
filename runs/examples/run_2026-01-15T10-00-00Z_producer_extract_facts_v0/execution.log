@@ -1,0 +1,7 @@
+2026-01-15T10:00:00Z INFO  Run started: run_2026-01-15T10-00-00Z_producer_extract_facts_v0
+2026-01-15T10:00:01Z INFO  Manifest created and validated (mms.run-manifest.v0.1)
+2026-01-15T10:00:03Z INFO  Source frozen: src_demo_doc_001 (demo snapshot)
+2026-01-15T10:00:06Z INFO  Producer executed: producer_extract_facts_v0 (prompt-based extraction)
+2026-01-15T10:00:09Z INFO  Kernel gate: accepted 2 candidate claims into canonical claim records (mms.claim.v0.1)
+2026-01-15T10:00:12Z INFO  Run finished: SUCCESS
+

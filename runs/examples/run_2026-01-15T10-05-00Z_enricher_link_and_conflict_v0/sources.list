@@ -1,0 +1,3 @@
+src_producer_run_claims_001 | dataset  | ../run_2026-01-15T10-00-00Z_producer_extract_facts_v0/claims.jsonl | Input claims from producer run (canonical records).
+src_demo_doc_001            | document | demo://example-source                                              | Original frozen demo source snapshot reference.
+

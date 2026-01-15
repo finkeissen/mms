@@ -1,0 +1,334 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/mms/0.4.0/jsonl/record.schema.json",
+  "title": "MMS 0.4.0 — Fact Record (JSONL)",
+  "description": "A single fact record representing one atomic claim extracted from one source. This record asserts no truth; it captures provenance, context, and status.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_type",
+    "record_id",
+    "mms_version",
+    "rp_version",
+    "created_at",
+    "status",
+    "claim",
+    "source"
+  ],
+  "properties": {
+    "record_type": {
+      "type": "string",
+      "const": "mms.fact_record"
+    },
+
+    "record_id": {
+      "type": "string",
+      "description": "Stable identifier for this fact record (UUID/ULID or deterministic hash).",
+      "minLength": 8
+    },
+
+    "mms_version": {
+      "type": "string",
+      "description": "MMS specification version that produced or validated this record.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+
+    "rp_version": {
+      "type": "string",
+      "description": "Research-program baseline used as methodological reference.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+
+    "created_at": {
+      "type": "string",
+      "description": "Record creation timestamp (RFC3339).",
+      "format": "date-time"
+    },
+
+    "status": {
+      "type": "string",
+      "description": "Epistemic/operational status of the claim (no truth implied).",
+      "enum": [
+        "asserted",
+        "unknown",
+        "no-claim",
+        "conflicting"
+      ]
+    },
+
+    "problem_id": {
+      "type": "string",
+      "description": "Optional in 0.4.0: links this fact record to an atomic problem record (mms.problem). Required in later versions.",
+      "minLength": 8
+    },
+
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text",
+        "language"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "Atomic claim text (one proposition).",
+          "minLength": 1
+        },
+        "language": {
+          "type": "string",
+          "description": "BCP-47 language tag of the claim text.",
+          "minLength": 2
+        },
+        "subject": {
+          "type": "object",
+          "description": "Optional lightweight subject reference (no ontology implied).",
+          "additionalProperties": false,
+          "required": [
+            "label"
+          ],
+          "properties": {
+            "label": {
+              "type": "string",
+              "minLength": 1
+            },
+            "ref": {
+              "type": "string",
+              "description": "Optional stable reference or identifier.",
+              "minLength": 1
+            }
+          }
+        },
+        "time": {
+          "type": "object",
+          "description": "Optional temporal binding of the claim.",
+          "additionalProperties": false,
+          "properties": {
+            "as_of": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "interval": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "start",
+                "end"
+              ],
+              "properties": {
+                "start": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "end": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "source_type"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "description": "Stable identifier for the source artifact (URL, dataset id, document hash, etc.).",
+          "minLength": 1
+        },
+        "source_type": {
+          "type": "string",
+          "description": "Type of source used to produce this fact record.",
+          "enum": [
+            "document",
+            "web",
+            "dataset",
+            "llm"
+          ]
+        },
+
+        "locator": {
+          "type": "object",
+          "description": "Optional precise location inside the source.",
+          "additionalProperties": false,
+          "properties": {
+            "url": {
+              "type": "string",
+              "minLength": 1
+            },
+            "doc_hash": {
+              "type": "string",
+              "minLength": 6
+            },
+            "page": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "span": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "start",
+                "end"
+              ],
+              "properties": {
+                "start": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "end": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        },
+
+        "llm": {
+          "type": "object",
+          "description": "Required if source_type is 'llm'. Captures model and prompt context for reproducibility.",
+          "additionalProperties": false,
+          "required": [
+            "provider",
+            "model"
+          ],
+          "properties": {
+            "provider": {
+              "type": "string",
+              "minLength": 1
+            },
+            "model": {
+              "type": "string",
+              "minLength": 1
+            },
+            "temperature": {
+              "type": "number",
+              "minimum": 0
+            },
+            "prompt_id": {
+              "type": "string",
+              "description": "Optional reference to a versioned prompt template.",
+              "minLength": 1
+            },
+            "prompt_hash": {
+              "type": "string",
+              "description": "Hash of the exact prompt (template + filled variables).",
+              "minLength": 6
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "source_type": {
+                "const": "llm"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "llm"
+            ]
+          }
+        }
+      ]
+    },
+
+    "provenance": {
+      "type": "object",
+      "description": "Optional operational provenance information.",
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pipeline_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+
+    "links": {
+      "type": "object",
+      "description": "Optional explicit relations to other fact records.",
+      "additionalProperties": false,
+      "properties": {
+        "same_as": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "related_to": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "conflicts_with": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "supersedes": {
+          "type": "array",
+          "description": "This record supersedes older record(s).",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "superseded_by": {
+          "type": "array",
+          "description": "Newer record(s) that supersede this one.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+
+    "quality": {
+      "type": "object",
+      "description": "Optional machine-checkable quality indicators (not truth).",
+      "additionalProperties": false,
+      "properties": {
+        "schema_valid": {
+          "type": "boolean"
+        },
+        "has_locator": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
+

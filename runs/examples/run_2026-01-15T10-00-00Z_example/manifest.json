@@ -1,0 +1,50 @@
+{
+  "schema": "mms.run-manifest.v0.1",
+  "record_type": "run_manifest",
+  "run_id": "run_2026-01-15T10-00-00Z_example",
+  "matrix_id": "matrix_canonical_v0",
+  "profile": "MIXED",
+  "started_at": "2026-01-15T10:00:00Z",
+  "finished_at": "2026-01-15T10:00:10Z",
+  "inputs": {
+    "sources": [
+      {
+        "source_id": "src_demo_doc_001",
+        "type": "document",
+        "hash": "sha256:deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+        "locator": "inputs/sources.list#L1"
+      }
+    ]
+  },
+  "modes": [
+    {
+      "name": "producer.prompt.demo.v0",
+      "profile": "PRODUCER",
+      "version": "0.0.1",
+      "config_ref": "config/pipeline.yaml"
+    },
+    {
+      "name": "enricher.linking.demo.v0",
+      "profile": "ENRICHER",
+      "version": "0.0.1",
+      "config_ref": "config/pipeline.yaml"
+    },
+    {
+      "name": "enricher.conflict.demo.v0",
+      "profile": "ENRICHER",
+      "version": "0.0.1",
+      "config_ref": "config/pipeline.yaml"
+    }
+  ],
+  "outputs": {
+    "artifacts": [
+      { "kind": "claims", "path": "artifacts/claims.jsonl", "content_type": "application/jsonl" },
+      { "kind": "relations", "path": "artifacts/relations.jsonl", "content_type": "application/jsonl" },
+      { "kind": "conflicts", "path": "artifacts/conflicts.jsonl", "content_type": "application/jsonl" },
+      { "kind": "log", "path": "logs/execution.log", "content_type": "text/plain" }
+    ]
+  },
+  "outcome": "SUCCESS",
+  "notes": "Example run for schema v0.1; artifacts are minimal and illustrative."
+}
+

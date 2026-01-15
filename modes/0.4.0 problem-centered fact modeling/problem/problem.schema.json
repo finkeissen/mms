@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/mms/0.4.0/problem/problem.schema.json",
+  "title": "MMS 0.4.0 — Problem Record",
+  "description": "Anchor record: exactly one JSON object per atomic problem (e.g., disease entity, legal offense). Facts/claims attach to problems via problem_id. This record does not assert truth; it defines the problem container and its terminology surface.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_type",
+    "problem_id",
+    "mms_version",
+    "rp_version",
+    "created_at",
+    "domain",
+    "title",
+    "terms"
+  ],
+  "properties": {
+    "record_type": {
+      "type": "string",
+      "const": "mms.problem"
+    },
+
+    "problem_id": {
+      "type": "string",
+      "description": "Stable identifier for the atomic problem (UUID/ULID or deterministic id).",
+      "minLength": 8
+    },
+
+    "mms_version": {
+      "type": "string",
+      "description": "MMS spec version that produced/validated this record (e.g., 0.4.0).",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+
+    "rp_version": {
+      "type": "string",
+      "description": "Research-program baseline used as methodological reference (e.g., 0.4.0).",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+
+    "created_at": {
+      "type": "string",
+      "description": "Record creation timestamp (RFC3339).",
+      "format": "date-time"
+    },
+
+    "domain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable domain identifier (from your domain list).",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subdomain": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "label"],
+          "properties": {
+            "id": { "type": "string", "minLength": 1 },
+            "label": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+
+    "title": {
+      "type": "object",
+      "description": "Human-facing name of the atomic problem (not necessarily canonical).",
+      "additionalProperties": false,
+      "required": ["text", "language"],
+      "properties": {
+        "text": { "type": "string", "minLength": 1 },
+        "language": { "type": "string", "minLength": 2 }
+      }
+    },
+
+    "summary": {
+      "type": "object",
+      "description": "Optional short description (non-authoritative).",
+      "additionalProperties": false,
+      "required": ["text", "language"],
+      "properties": {
+        "text": { "type": "string", "minLength": 1 },
+        "language": { "type": "string", "minLength": 2 }
+      }
+    },
+
+    "terms": {
+      "type": "array",
+      "description": "Terminology surface for this problem. Used for linking and later normalization. No ontology implied.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["text", "language", "kind"],
+        "properties": {
+          "text": { "type": "string", "minLength": 1 },
+          "language": { "type": "string", "minLength": 2 },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "label",
+              "synonym",
+              "abbreviation",
+              "code",
+              "alias"
+            ]
+          },
+          "ref": {
+            "type": "string",
+            "description": "Optional stable term reference (URI/code system).",
+            "minLength": 1
+          },
+          "source": {
+            "type": "object",
+            "description": "Optional: where this term came from (non-authoritative).",
+            "additionalProperties": false,
+            "properties": {
+              "source_id": { "type": "string", "minLength": 1 },
+              "note": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+
+    "links": {
+      "type": "object",
+      "description": "Optional relations to other problem records (soft linking).",
+      "additionalProperties": false,
+      "properties": {
+        "related_to": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "supersedes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+
+    "quality": {
+      "type": "object",
+      "description": "Optional: machine-checkable quality signals (not truth).",
+      "additionalProperties": false,
+      "properties": {
+        "schema_valid": { "type": "boolean" },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}
+

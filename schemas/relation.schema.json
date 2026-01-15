@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/mms/schemas/relation.schema.json",
+  "title": "MMS Relation Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "record_type",
+    "relation_id",
+    "run_id",
+    "type",
+    "from_claim_id",
+    "to_claim_id",
+    "provenance",
+    "created_at"
+  ],
+  "properties": {
+    "schema": { "type": "string", "const": "mms.relation.v0.1" },
+    "record_type": { "type": "string", "const": "relation" },
+
+    "relation_id": {
+      "type": "string",
+      "minLength": 8,
+      "description": "Stable identifier of this relation record (append-only)."
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 8,
+      "description": "The run that produced this relation."
+    },
+
+    "type": {
+      "type": "string",
+      "minLength": 2,
+      "description": "Typed relation label (structure, not resolution)."
+    },
+
+    "from_claim_id": { "type": "string", "minLength": 8 },
+    "to_claim_id": { "type": "string", "minLength": 8 },
+
+    "scope": {
+      "type": "string",
+      "description": "Optional scope/context under which this relation holds."
+    },
+
+    "temporal": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "asserted_at": { "type": "string", "format": "date-time" }
+      }
+    },
+
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sources"],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/source_ref" }
+        },
+        "method": {
+          "type": "string",
+          "description": "Optional description of how the relation was produced (heuristic, manual, etc.)."
+        }
+      }
+    },
+
+    "created_at": { "type": "string", "format": "date-time" },
+
+    "notes": { "type": "string" }
+  },
+
+  "$defs": {
+    "source_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "type"],
+      "properties": {
+        "source_id": { "type": "string", "minLength": 4 },
+        "type": {
+          "type": "string",
+          "enum": ["document", "dataset", "web", "transcript", "llm", "other"]
+        },
+        "locator": { "type": "string" }
+      }
+    }
+  }
+}
+
