@@ -30,11 +30,52 @@ It is an infrastructure for *managing uncertainty*, not resolving it.
 
 ---
 
-### Clarification — Non-Authority
+## Non-Authority, Merit Exposure
 
-MMS is an **operative system**, not an epistemic authority.
-All productive effects of MMS are structural, never epistemic.
-Any appearance of authority must be explicitly introduced *outside* MMS.
+MMS is a strictly **non-authoritative system**.
+
+It does not derive authority from sources, authors, institutions,
+historical standing, or social recognition.
+No form of eminence has structural effect within the system.
+
+All inputs enter MMS exclusively as explicit artifacts
+(claims, relations, conflicts),
+bound to provenance, context, and time.
+
+---
+
+MMS does not evaluate, rank, score, or select claims.
+It does not decide which claims are stronger, better,
+more relevant, or more correct.
+
+The system produces **structural effects only**.
+Any epistemic judgment, interpretation, or validation
+must occur explicitly outside MMS.
+
+---
+
+Merit is therefore not enforced, optimized, or operationalized.
+
+Merit may become visible through:
+- explicit formulation
+- stable reference structures
+- reproducibility across runs
+- persistence under conflict
+
+Such effects are **emergent**, not systemic.
+
+---
+
+In MMS:
+- authority does not accumulate
+- status does not propagate
+- consensus does not collapse disagreement
+- visibility replaces validation
+- responsibility replaces truth
+
+Any appearance of authority is external to MMS
+and must be introduced explicitly.
+
 
 ---
 
