@@ -22,6 +22,19 @@ This document is **normative** for all MMS executions.
 
 ---
 
+### Clarification — Normative Strength
+
+This document is binding for:
+- humans
+- automation
+- tooling
+- historical reconstruction
+
+If any execution contradicts this document,
+the execution is invalid under MMS architecture.
+
+---
+
 ## Conceptual Role of a Run
 
 A **Run** is the MMS equivalent of a **database transaction log entry**.
@@ -42,6 +55,13 @@ A run is an **explicit, inspectable event**.
 
 ---
 
+### Clarification — Run vs. Result
+
+Runs record **events**, not outcomes in the evaluative sense.
+The existence of a run does not imply success, usefulness, or correctness.
+
+---
+
 ## Why Runs Are First-Class Objects
 
 Runs are first-class because MMS must guarantee:
@@ -56,6 +76,13 @@ Without explicit runs:
 - QA becomes implicit
 - regressions become invisible
 - automation becomes unsafe
+
+---
+
+### Architectural Note — Runs as Epistemic Firebreaks
+
+Runs prevent implicit accumulation of authority.
+Each run is isolated, attributable, and inspectable.
 
 ---
 
@@ -82,6 +109,14 @@ Implicit reuse of context is disallowed.
 
 ---
 
+### Clarification — Input Exhaustiveness
+
+If an input influences a run,
+it must be declared.
+Undeclared influence constitutes an invalid run.
+
+---
+
 ### Explicit Configuration
 Every run MUST record:
 - the producer/enricher/translator modes used
@@ -90,11 +125,26 @@ Every run MUST record:
 
 ---
 
+### Clarification — Configuration Identity
+
+Configuration identity is part of run identity.
+Changing configuration without a new run
+is architecturally forbidden.
+
+---
+
 ### Explicit Outputs
 Every run MUST enumerate:
 - produced artifacts
 - their locations
 - their types (claims, relations, conflicts, logs)
+
+---
+
+### Clarification — Empty Output Is Valid
+
+A run that produces no claims or relations
+is still a valid run if its outcome is explicit.
 
 ---
 
@@ -125,6 +175,16 @@ They are part of the audit trail.
 
 ---
 
+### Explicit Boundary — Outcome Semantics
+
+Outcomes must never be:
+- ranked
+- weighted
+- interpreted as quality signals
+- collapsed into success/failure metrics
+
+---
+
 ## Run as the Unit of Comparison
 
 Runs are designed to be:
@@ -140,6 +200,15 @@ This enables:
 
 Runs do not compete.
 They accumulate.
+
+---
+
+### Clarification — Comparison Without Selection
+
+Comparison exists to observe structure,
+not to select winners.
+
+Any selection logic must be external.
 
 ---
 
@@ -159,6 +228,8 @@ runs/
     ├── conflicts.jsonl
     ├── sources.list
     ├── pipeline.yaml
-    └── execution.log
+    ├── execution.log
+    └── run.log.jsonl
+
 {"schema":"mms.conflict.v0.1","record_type":"conflict","conflict_id":"cnf_demo_0001","run_id":"run_2026-01-15T10-00-00Z_example","claim_ids":["clm_demo_0001","clm_demo_0002"],"scope":{"text":"Both claims assert different operating voltages for the same component under the same stated demo scope.","domain":"demo"},"classification":{"kind":"incompatibility","contested":false},"temporal":{"asserted_at":"2026-01-15T10:00:08Z"},"provenance":{"sources":[{"source_id":"src_demo_doc_001","type":"document","locator":"demo://example-source"}],"method":"enricher.conflict.demo.v0"},"created_at":"2026-01-15T10:00:08Z","notes":"Conflict is represented, not resolved."}
 

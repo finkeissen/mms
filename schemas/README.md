@@ -23,6 +23,16 @@ of the MMS kernel contract.
 
 ---
 
+### Clarification — Schemas as Enforcement, Not Interpretation
+
+Schemas enforce **structural admissibility only**.
+They do not interpret, evaluate, or prioritize content.
+
+Any attempt to read epistemic meaning into schema validation
+is a category error.
+
+---
+
 ## Relationship to the Architecture
 
 The schemas are **derived mechanically** from:
@@ -37,6 +47,20 @@ They do **not** introduce new semantics.
 
 If a rule is not present in the kernel or process documents,
 it must not appear in the schemas.
+
+---
+
+### Architectural Note — One-Way Dependency
+
+Architecture → Schemas is a one-way dependency.
+
+Schemas may never:
+- add constraints not justified by architecture
+- encode convenience assumptions
+- compensate for tooling weaknesses
+
+If schemas appear to “decide” something,
+the architecture must be revisited instead.
 
 ---
 
@@ -56,8 +80,23 @@ The following schemas are canonical in version v0.1:
 - `run-manifest.schema.json`  
   Defines **Runs** as transactional and audit units
 
+- `log-entry.schema.json`  
+  Defines **Log Entries** as append-only operational events
+  forming the audit trail of a run
+
 Together, these schemas define the **minimum MMS contract**
 that all implementations must satisfy.
+
+---
+
+### Clarification — Minimum Means Minimum
+
+“Minimum” means:
+- no convenience fields
+- no inferred defaults
+- no redundancy for tooling ease
+
+Any extension must be justified explicitly.
 
 ---
 
@@ -79,11 +118,24 @@ They intentionally avoid:
 
 ---
 
+### Explicit Boundary — No Semantic Fields
+
+Schemas must not include fields whose only purpose is to:
+- imply correctness
+- encode likelihood
+- suggest importance
+- collapse disagreement
+
+Such fields introduce hidden epistemic authority.
+
+---
+
 ## Schema Versioning Rules
 
 Schema versions are independent of MMS release versions.
 
 ### Patch Changes (v0.1.x)
+
 Allowed:
 - clarification of descriptions
 - bug fixes in constraints
@@ -95,7 +147,15 @@ Not allowed:
 
 ---
 
+### Clarification — Patch Strictness
+
+If there is doubt whether a change breaks an artifact,
+it is not a patch change.
+
+---
+
 ### Minor Changes (v0.2)
+
 Allowed:
 - adding new **optional** fields
 - extending enums conservatively
@@ -107,6 +167,7 @@ Not allowed:
 ---
 
 ### Major Changes (v1.0)
+
 Required when:
 - required fields change
 - claim identity rules change
@@ -116,6 +177,14 @@ Required when:
 Major schema changes imply:
 - a new MMS kernel contract version
 - potentially a new Matrix instantiation
+
+---
+
+### Architectural Note — Major Change Cost
+
+Major schema changes are intentionally expensive.
+They signal epistemic or structural shifts,
+not routine evolution.
 
 ---
 
@@ -136,6 +205,17 @@ but they encode *what is structurally allowed*.
 
 ---
 
+### Clarification — Indirect Enforcement Only
+
+Schemas do not replace:
+- profiles
+- runs
+- audits
+
+They support them structurally.
+
+---
+
 ## Schemas and Validation
 
 Schemas are intended to be used by:
@@ -150,9 +230,25 @@ A valid MMS artifact MUST:
 - reference a valid run
 - respect append-only semantics
 
+Log artifacts are optional.
+If present, each log entry MUST validate against
+`log-entry.schema.json`.
+
 Artifacts that fail validation:
 - must be rejected explicitly
 - must not be silently corrected
+
+---
+
+### Explicit Boundary — No Auto-Correction
+
+Automatic “fix-up” of invalid artifacts
+is forbidden.
+
+Correction requires:
+- a new run
+- explicit documentation
+- preserved failure history
 
 ---
 
@@ -185,6 +281,14 @@ Identity is defined by:
 - conflicts
 
 Not by schema version alone.
+
+---
+
+### Clarification — Schema Stability vs. Matrix Evolution
+
+The Matrix may evolve rapidly
+while schemas remain stable.
+This asymmetry is intentional.
 
 ---
 

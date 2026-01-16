@@ -30,6 +30,14 @@ It is an infrastructure for *managing uncertainty*, not resolving it.
 
 ---
 
+### Clarification — Non-Authority
+
+MMS is an **operative system**, not an epistemic authority.
+All productive effects of MMS are structural, never epistemic.
+Any appearance of authority must be explicitly introduced *outside* MMS.
+
+---
+
 ## Core Design Principle
 
 > **Nothing is silently decided.  
@@ -43,6 +51,14 @@ This principle applies uniformly to:
 - automation
 
 There are no hidden defaults, implicit resolutions, or silent overwrites.
+
+---
+
+### Architectural Note — Reversibility
+
+Reversibility refers to **structural reversibility by history**,  
+not to undoing or correcting claims.
+Nothing is deleted; later structure may contradict earlier structure.
 
 ---
 
@@ -64,6 +80,19 @@ but replaces *data* with *knowledge claims*.
 
 This analogy is **architectural**, not literal.
 MMS borrows structural rigor, not epistemic authority.
+
+---
+
+### Explicit Boundary — Analogy Limit
+
+The DBMS analogy must not be read as implying:
+- correctness
+- consistency
+- convergence
+- completeness
+- queryable truth
+
+It is a **structural analogy only**.
 
 ---
 
@@ -91,6 +120,13 @@ Everything else is derived.
 
 ---
 
+### Clarification — Claims Are Not Facts
+
+Claims are **statements made by sources**, not facts about the world.
+Their presence in MMS implies admissibility, not correctness.
+
+---
+
 ## What MMS Explicitly Does NOT Do
 
 MMS does **not**:
@@ -109,9 +145,18 @@ Any resolution must be explicit, reversible, and external.
 
 ---
 
+### Explicit Boundary — No Implicit Resolution
+
+Any process that *appears* to reduce disagreement
+without explicit representation is architecturally invalid.
+
+---
+
 ## Kernel, Process, and Roles
 
 MMS separates concerns strictly.
+
+---
 
 ### Kernel
 
@@ -130,6 +175,16 @@ It validates structure, not meaning.
 
 ---
 
+### Clarification — Kernel Scope
+
+The kernel never inspects semantic content.
+It enforces only:
+- schema validity
+- identity constraints
+- append-only guarantees
+
+---
+
 ### Logical Process
 
 The **Logical Process** defines:
@@ -143,6 +198,13 @@ They only define *what may happen when*.
 
 ---
 
+### Explicit Boundary — Process vs. Authority
+
+A process may fail, stop, or abort,
+but it may never *decide*.
+
+---
+
 ### Profiles and Modes
 
 **Profiles** define *who may do what*.
@@ -150,6 +212,13 @@ They only define *what may happen when*.
 
 Profiles define **permissions**, not authority.
 No profile has epistemic priority.
+
+---
+
+### Clarification — Reproducibility Without Correctness
+
+Modes guarantee reproducibility of structure,
+never correctness of content.
 
 ---
 
@@ -172,6 +241,14 @@ Runs are:
 
 ---
 
+### Explicit Boundary — STOP as Valid Outcome
+
+STOP is a valid, expected, and correct run outcome.
+A run ending in STOP produces no claims
+and requires no repair.
+
+---
+
 ## Identity, Hashes, and Integrity
 
 MMS relies on **explicit identity**, not implicit context.
@@ -183,6 +260,16 @@ Hashes are used to ensure:
 - integrity verification
 
 Hashes provide **identity and integrity**, not meaning or trust.
+
+---
+
+### Clarification — Hashes Are Not Validation
+
+Hashes do not imply:
+- source quality
+- correctness
+- authority
+- endorsement
 
 ---
 
@@ -198,6 +285,13 @@ They:
 - may always be deleted and rebuilt
 
 The system remains valid without them.
+
+---
+
+### Architectural Note — Index Volatility
+
+Indices must be treated as disposable views,
+never as epistemic artifacts.
 
 ---
 
@@ -217,6 +311,18 @@ There is no hidden automation.
 
 ---
 
+### Explicit Boundary — Tool Responsibility
+
+Any tool that introduces:
+- aggregation
+- summarization
+- ranking
+- interpretation
+
+operates **outside** MMS responsibility.
+
+---
+
 ## Repository Structure (Conceptual)
 
 ```text
@@ -228,103 +334,4 @@ profiles/    # Role and permission definitions
 runs/        # Append-only execution records
 tools/       # Optional helper tools
 modes/       # Historical archive (non-canonical)
-```
 
----
-
-## Position of MMS in the Repository Cascade
-
-MMS is **not a standalone epistemic system**.
-It is part of a **deliberately layered repository cascade**:
-
-```text
-research-program
-→ Matrix Management System (MMS)
-→ Matrix
-→ external decision-making systems
-```
-
-### research-program
-
-Defines the **epistemic rules of legitimacy**:
-- which kinds of claims are admissible
-- how disagreement must be represented
-- where reasoning must explicitly stop
-
-It produces **no results**, **no truth**, and **no conclusions**.
-
-### MMS (this repository)
-
-Implements the **operative handling rules** derived from the research-program.
-
-MMS:
-- manages claims, relations, and conflicts
-- enforces structure, provenance, and history
-- produces no truth, rankings, or decisions
-
-MMS is **not neutral** in the abstract sense:
-it is a concrete, rule-bound implementation.
-What remains non-negotiable is that it produces
-**no epistemic authority**.
-
-### Matrix
-
-The **Matrix** is the concrete, instantiational product
-generated by MMS runs.
-
-It represents:
-- what is claimed
-- by whom
-- when
-- under which assumptions
-- and in conflict with what
-
-The Matrix is **not truth**, **not authority**, and **not a decision**.
-
----
-
-## Architectural Contract
-
-The cross-repository architectural contract
-and the precise responsibility boundaries between:
-
-- research-program
-- MMS
-- Matrix
-
-are defined in the following document:
-
-→ **README_research-program+mms+matrix.md**  
-(maintained in the `research-program` repository)
-
-That document is **authoritative for layering and responsibility**,
-but **not MMS-internal architecture**.
-
-For MMS-internal norms, see:
-- `ARCHITECTURE.md`
-- `DECISIONS.md`
-- `GLOSSARY.md`
-
----
-
-## How to Work With This Repository
-
-All authoritative development happens in:
-- `docs/`
-- `schemas/`
-- `kernel/`
-- `pipelines/`
-- `profiles/`
-- `runs/`
-
-The `modes/` directory is preserved for historical traceability only.
-
----
-
-## Summary
-
-MMS exists to **manage epistemically structured statements**
-under explicit rules of provenance, temporality, and conflict —
-without collapsing them into truth, consensus, or decision.
-
-If something feels implicit, it is probably wrong.

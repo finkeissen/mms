@@ -23,6 +23,14 @@ or irreversible effects, it is not acceptable.
 
 ---
 
+### Clarification — Contribution Bar
+
+The bar for acceptance is intentionally high.
+Rejection of a contribution does not imply poor quality;
+it usually indicates architectural mismatch.
+
+---
+
 ## Canonical vs. Non-Canonical Areas
 
 ### Canonical Areas (Authoritative)
@@ -40,6 +48,17 @@ Changes in these areas are considered **architecturally binding**.
 
 ---
 
+### Clarification — Canonical Responsibility
+
+Changes in canonical areas affect:
+- auditability
+- responsibility boundaries
+- downstream interpretation
+
+Contributors are expected to understand these implications.
+
+---
+
 ### Non-Canonical Areas (Historical / Derived)
 
 The following areas are **not** authoritative:
@@ -50,6 +69,16 @@ The following areas are **not** authoritative:
 
 Do **not** introduce new development into `modes/`.
 It is preserved for traceability only.
+
+---
+
+### Explicit Boundary — Derived Does Not Mean Safe
+
+Non-canonical does not mean unimportant.
+It means **non-authoritative**.
+
+Derived areas must never be used
+to smuggle implicit decisions back into canonical state.
 
 ---
 
@@ -73,6 +102,14 @@ Inappropriate contributions include:
 
 ---
 
+### Clarification — “Helpful” Is Not a Criterion
+
+A contribution being “useful” or “convenient”
+is not sufficient for acceptance.
+Architectural integrity always wins over convenience.
+
+---
+
 ## Runs and Artifacts
 
 Remember:
@@ -82,6 +119,16 @@ Remember:
 Canonical artifacts must always originate from a **Run**.
 Manual insertion or modification of claims, relations, or conflicts
 outside a run is not permitted.
+
+---
+
+### Clarification — Responsibility of the Contributor
+
+If you introduce a run, you introduce responsibility.
+You must be able to explain:
+- why the run exists
+- what assumptions it encodes
+- why STOP was or was not triggered
 
 ---
 

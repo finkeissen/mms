@@ -28,6 +28,14 @@ Meaning and resolution are always external.
 
 ---
 
+### Clarification — Architecture vs. Implementation
+
+This document defines **architectural invariants**, not implementation choices.
+Programming languages, storage backends, and tooling may change;
+architectural responsibilities must not.
+
+---
+
 ## Core Architectural Invariants
 
 The following invariants are **non-negotiable**.
@@ -45,6 +53,15 @@ There is no concept of “update in place”.
 
 ---
 
+### Architectural Note — Historical Integrity
+
+Append-only semantics are required to preserve **epistemic traceability**.
+Any mechanism that obscures prior states,
+even for performance or convenience reasons,
+violates architectural integrity.
+
+---
+
 ### 2. Explicit Origin (Runs)
 
 Every canonical artifact originates from exactly one **Run**.
@@ -58,6 +75,19 @@ Runs are the only bridge between automation and canonical state.
 
 ---
 
+### Clarification — Runs as Responsibility Anchors
+
+Runs bind:
+- tooling behavior
+- configuration
+- inputs
+- outputs
+
+to a single accountable execution context.
+Without runs, attribution and audit collapse.
+
+---
+
 ### 3. Explicit Structure (Schemas)
 
 All canonical artifacts are schema-bound.
@@ -68,6 +98,19 @@ All canonical artifacts are schema-bound.
 - Schemas describe structure, not meaning
 
 Schema violations are structural errors, not soft warnings.
+
+---
+
+### Explicit Boundary — No Semantic Enforcement
+
+Schemas must never encode:
+- truth conditions
+- domain correctness
+- epistemic priority
+- implicit interpretation
+
+Any attempt to encode meaning into schemas
+constitutes a category error.
 
 ---
 
@@ -90,6 +133,13 @@ If a decision exists, it must be:
 
 ---
 
+### Clarification — Silence Is Not Neutrality
+
+Implicit behavior is **not** neutral behavior.
+Silence at the architectural level is interpreted as a defect.
+
+---
+
 ### 5. Conflict Is a First-Class Concept
 
 Conflicts are not failures.
@@ -100,6 +150,14 @@ Conflicts are not failures.
 - Conflict absence must not be assumed
 
 Disagreement is preserved, not normalized away.
+
+---
+
+### Architectural Note — Conflict Persistence
+
+The system must remain valid
+even if conflicts are never resolved.
+Resolution is optional; representation is mandatory.
 
 ---
 
@@ -120,6 +178,15 @@ The kernel is deliberately minimal.
 
 ---
 
+### Clarification — Kernel as Firewall
+
+The kernel acts as a **firewall**
+against implicit epistemic behavior.
+Any logic requiring interpretation
+must live outside the kernel.
+
+---
+
 ### Processes
 
 Processes:
@@ -129,6 +196,14 @@ Processes:
 - never decide truth
 
 Processes orchestrate, they do not judge.
+
+---
+
+### Explicit Boundary — Process Termination
+
+A process may terminate in failure or STOP
+without producing artifacts.
+This is a valid and expected outcome.
 
 ---
 
@@ -144,6 +219,13 @@ Profiles define **capability**, not authority.
 
 ---
 
+### Clarification — No Epistemic Privilege
+
+No profile may introduce
+epistemic priority or correctness by role.
+
+---
+
 ### Tooling
 
 Tools are external.
@@ -154,6 +236,19 @@ Tools are external.
 - tools never bypass the kernel
 
 Automation is always optional.
+
+---
+
+### Explicit Boundary — Tool Responsibility
+
+Any tool that:
+- aggregates
+- summarizes
+- ranks
+- interprets
+
+operates outside MMS responsibility
+and must not write canonical artifacts implicitly.
 
 ---
 
@@ -183,6 +278,13 @@ They only guarantee sameness.
 
 ---
 
+### Clarification — Integrity vs. Authority
+
+Integrity ensures sameness over time.
+It does not imply correctness, relevance, or trustworthiness.
+
+---
+
 ## Derived Artifacts
 
 Indices, views, projections, summaries, rankings, and graphs are:
@@ -195,6 +297,15 @@ Indices, views, projections, summaries, rankings, and graphs are:
 They may be deleted and rebuilt at any time.
 
 The system remains valid without them.
+
+---
+
+### Architectural Note — Derived Artifact Risk
+
+Derived artifacts must never be confused
+with canonical state.
+Any coupling between them
+is an architectural violation.
 
 ---
 
@@ -213,6 +324,15 @@ but never inside the MMS kernel.
 
 ---
 
+### Explicit Boundary — Optimization
+
+Performance optimization must never:
+- alter semantics
+- obscure history
+- introduce defaults
+
+---
+
 ## Evolution Rules
 
 Architecture evolves under strict rules:
@@ -223,6 +343,13 @@ Architecture evolves under strict rules:
 - history must remain interpretable
 
 Breaking history is worse than breaking APIs.
+
+---
+
+### Clarification — Evolution as Constraint Tightening
+
+Evolution serves to **reduce ambiguity**,
+not to expand system power.
 
 ---
 
@@ -239,6 +366,13 @@ Undocumented architecture does not exist.
 
 ---
 
+### Architectural Note — Decision Transparency
+
+Decision records are part of the architecture.
+Omitting them is equivalent to making hidden decisions.
+
+---
+
 ## Summary
 
 MMS is an infrastructure for **preserving epistemic structure over time**.
@@ -251,4 +385,58 @@ It optimizes for:
 
 Any change that weakens these properties
 is architecturally invalid.
+
+---
+
+## Forbidden Changes (Hard Prohibitions)
+
+The following changes are architecturally forbidden,
+even if they appear convenient, performant, or “more useful”:
+
+- introducing in-place updates of canonical artifacts
+- allowing canonical artifacts without a Run origin
+- allowing manual insertion into canonical state
+- adding implicit conflict resolution
+- adding implicit claim prioritization or ranking
+- adding default interpretations or “best effort” synthesis
+- embedding domain semantics into the kernel
+- allowing tools to bypass kernel validation
+- treating derived artifacts as canonical state
+- deleting history to “clean up” or reduce size
+
+If any of these are proposed,
+the burden of proof is on the proposer to show that
+the prohibition is not being violated.
+If unclear, the correct outcome is STOP.
+
+---
+
+## Misuse Triggers (Audit Alerts)
+
+The following signals should be treated as audit triggers:
+
+- “We should just fix it in place.”
+- “Let’s pick the best source.”
+- “We can auto-merge similar claims.”
+- “This conflict is probably noise.”
+- “Let’s hide contradictions for users.”
+- “We can infer truth from structure.”
+- “The model concluded that…”
+
+These are not “opinions”.
+They are structural indicators of authority creep.
+
+---
+
+## STOP and Non-Production (Kernel-Compatible)
+
+STOP is a valid, expected architectural outcome.
+
+- STOP does not require repair
+- STOP does not imply failure of the system
+- STOP preserves integrity when admissibility is violated
+
+Any mechanism that attempts to bypass STOP
+by producing “something anyway”
+introduces implicit decisions and is forbidden.
 

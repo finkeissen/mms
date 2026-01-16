@@ -24,6 +24,12 @@ Canonical artifact types are:
 
 Derived artifacts are not canonical.
 
+### Clarification — Artifact vs. Data
+
+Artifacts are not “data” in the generic sense.
+They are epistemically constrained objects whose meaning
+is defined only by structure, provenance, and relations.
+
 ---
 
 ## Canonical
@@ -38,6 +44,11 @@ Canonical artifacts:
 - define the official state of the system
 
 Non-canonical artifacts may be derived, historical, or auxiliary.
+
+### Explicit Boundary — Canonical ≠ Correct
+
+Canonical status implies architectural authority,
+not epistemic correctness or truth.
 
 ---
 
@@ -54,6 +65,12 @@ A claim:
 Claims are never edited.
 Corrections result in new claims.
 
+### Clarification — Claim Minimalism
+
+Claims must be minimal.
+Bundled or synthesized assertions violate claim semantics
+and must be decomposed before entry.
+
 ---
 
 ## Conflict
@@ -68,6 +85,11 @@ A conflict:
 - is never resolved implicitly
 
 Absence of a conflict does not imply agreement.
+
+### Architectural Note — Conflict Visibility
+
+Failure to represent a conflict
+is a stronger error than unresolved conflict.
 
 ---
 
@@ -89,6 +111,11 @@ Derived artifacts:
 - never add information
 - never resolve conflicts
 
+### Clarification — Disposable by Design
+
+Derived artifacts must always be treated as disposable views,
+never as authoritative references.
+
 ---
 
 ## Hash
@@ -101,6 +128,11 @@ Hashes provide:
 - auditability
 
 Hashes do not provide meaning, trust, or truth.
+
+### Explicit Boundary — Hash Neutrality
+
+Hash equality guarantees sameness of representation,
+not sameness of meaning or validity.
 
 ---
 
@@ -117,6 +149,11 @@ The kernel:
 
 The kernel never decides truth.
 
+### Clarification — Kernel as Firewall
+
+The kernel exists to prevent
+implicit epistemic behavior from entering the system.
+
 ---
 
 ## Mode
@@ -130,6 +167,11 @@ Modes:
 - must not be extended
 
 Modes explain evolution, not current operation.
+
+### Architectural Note — Mode Freezing
+
+Any modification of a historical mode
+constitutes a break in traceability.
 
 ---
 
@@ -146,6 +188,11 @@ A process:
 
 Processes orchestrate, they do not judge.
 
+### Clarification — STOP Compatibility
+
+Processes must be able to terminate in STOP
+without producing artifacts.
+
 ---
 
 ## Profile
@@ -159,6 +206,11 @@ Profiles:
 - do not rank contributors
 
 Profiles constrain behavior, not meaning.
+
+### Explicit Boundary — No Epistemic Privilege
+
+No profile may confer correctness,
+priority, or epistemic weight.
 
 ---
 
@@ -174,6 +226,12 @@ Relations:
 
 Relations add structure, not resolution.
 
+### Clarification — Relation Neutrality
+
+Relations must not be interpreted
+as logical implication or endorsement
+unless explicitly defined by schema.
+
 ---
 
 ## Run
@@ -187,6 +245,11 @@ A run:
 - is the sole origin of canonical artifacts
 
 > No run, no claim.
+
+### Architectural Note — Responsibility Anchor
+
+Runs bind responsibility to execution context.
+Without runs, accountability collapses.
 
 ---
 
@@ -202,6 +265,13 @@ Schemas:
 
 Invalid artifacts never enter the system.
 
+### Explicit Boundary — Schema Scope
+
+Schemas must not encode:
+- truth conditions
+- domain authority
+- semantic correctness
+
 ---
 
 ## Tool
@@ -215,6 +285,11 @@ Tools:
 - never bypass kernel invariants
 
 Tools are optional.
+
+### Clarification — Tool Fallibility
+
+Tool output carries no epistemic privilege.
+It is treated identically to human-assisted runs.
 
 ---
 
@@ -230,6 +305,11 @@ MMS does not:
 Truth judgments may exist externally,
 but never implicitly inside MMS.
 
+### Explicit Boundary — Truth Containment
+
+Any implicit truth signal inside MMS
+is an architectural defect.
+
 ---
 
 ## View
@@ -244,6 +324,11 @@ Views:
 
 Views exist for convenience only.
 
+### Clarification — View Fragility
+
+Views must always be treated as fragile,
+ephemeral, and replaceable.
+
 ---
 
 ## Summary
@@ -254,4 +339,6 @@ If a term is unclear:
 - consult this document
 - prefer explicit definitions
 - avoid overloaded terminology
+
+Ambiguity is a bug, not a feature.
 

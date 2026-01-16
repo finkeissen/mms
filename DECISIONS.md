@@ -28,6 +28,14 @@ If a decision is superseded, the superseding decision must be referenced.
 
 ---
 
+### Clarification — Normative Status
+
+This document is normative.
+If implementation behavior contradicts an accepted decision here,
+the implementation is wrong.
+
+---
+
 ## DEC-001: Append-Only Canonical Artifacts
 
 **Status:** Accepted
@@ -51,6 +59,13 @@ Artifacts:
 
 ---
 
+### Architectural Note — Correction vs. Deletion
+
+Correction always means **addition**, never removal.
+Deletion is treated as epistemic loss.
+
+---
+
 ## DEC-002: Runs as the Sole Origin of Canonical Artifacts
 
 **Status:** Accepted
@@ -70,6 +85,13 @@ Every canonical artifact must originate from exactly one **Run**.
 - All artifacts are attributable
 - Automation and humans are treated uniformly
 - Debugging and audits are simplified
+
+---
+
+### Clarification — Runs as Accountability Units
+
+Runs bind responsibility.
+Without runs, provenance collapses into narrative.
 
 ---
 
@@ -96,6 +118,16 @@ Schemas:
 
 ---
 
+### Explicit Boundary — Schema Abuse
+
+Schemas must never encode:
+- epistemic priority
+- correctness
+- domain semantics
+- truth conditions
+
+---
+
 ## DEC-004: No Implicit Conflict Resolution
 
 **Status:** Accepted
@@ -117,6 +149,13 @@ Conflicts are **first-class artifacts** and are never resolved implicitly.
 
 ---
 
+### Architectural Note — Conflict Persistence
+
+Unresolved conflict is not technical debt.
+It is epistemic state.
+
+---
+
 ## DEC-005: Separation of Kernel and Tooling
 
 **Status:** Accepted
@@ -133,6 +172,13 @@ All automation lives outside the kernel and interacts only via runs.
 - The kernel remains stable
 - Tooling is replaceable
 - Automation is optional and explicit
+
+---
+
+### Clarification — Tool Replacement
+
+Replacing tools must not require
+changes to canonical state or history.
 
 ---
 
@@ -157,6 +203,13 @@ All derived artifacts are **non-canonical**.
 
 ---
 
+### Explicit Boundary — No Derived Authority
+
+Derived artifacts must never be cited
+as authoritative state.
+
+---
+
 ## DEC-007: Profiles Define Capability, Not Authority
 
 **Status:** Accepted
@@ -174,6 +227,13 @@ Profiles define **what may be done**, not **what is correct**.
 - Authority remains external
 - Governance must be explicit
 - Social processes are not encoded implicitly
+
+---
+
+### Clarification — Human vs. Automation Parity
+
+Human actors and automated tools
+are subject to identical architectural constraints.
 
 ---
 
@@ -198,6 +258,13 @@ The `modes/` directory is treated as a **historical archive**.
 
 ---
 
+### Architectural Note — Historical Legibility
+
+History is preserved even when it is messy.
+Legibility beats cleanliness.
+
+---
+
 ## DEC-009: Architecture Over Convenience
 
 **Status:** Accepted
@@ -215,6 +282,13 @@ When in conflict, **architectural integrity wins over convenience**.
 
 ---
 
+### Clarification — Convenience Is Not Neutral
+
+Convenience choices always encode assumptions.
+This decision makes that explicit.
+
+---
+
 ## Open Decisions
 
 The following areas are intentionally undecided:
@@ -226,6 +300,13 @@ The following areas are intentionally undecided:
 - trust and reputation mechanisms
 
 These are deferred by design.
+
+---
+
+### Architectural Note — Explicit Non-Decisions
+
+Leaving something undecided is itself a decision
+and must remain explicit.
 
 ---
 

@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/mms/schemas/log-entry.schema.json",
+  "title": "MMS Log Entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "record_type",
+    "run_id",
+    "ts",
+    "level",
+    "event",
+    "message"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "mms.log-entry.v0.1"
+    },
+    "record_type": {
+      "type": "string",
+      "const": "log_entry"
+    },
+
+    "run_id": {
+      "type": "string",
+      "minLength": 8,
+      "description": "The run this log entry belongs to."
+    },
+
+    "ts": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp of this event."
+    },
+
+    "level": {
+      "type": "string",
+      "enum": ["DEBUG", "INFO", "WARN", "ERROR"],
+      "description": "Operational severity marker (non-evaluative)."
+    },
+
+    "event": {
+      "type": "string",
+      "enum": [
+        "RUN_START",
+        "RUN_END",
+        "STAGE_START",
+        "STAGE_END",
+        "INPUT_DECLARED",
+        "CONFIG_DECLARED",
+        "ARTIFACT_WRITTEN",
+        "VALIDATION_START",
+        "VALIDATION_OK",
+        "VALIDATION_FAIL",
+        "REPAIR_ATTEMPT",
+        "REPAIR_OK",
+        "REPAIR_FAIL",
+        "BOUNDARY_VIOLATION",
+        "STOP",
+        "WARNING"
+      ],
+      "description": "Canonical event category. This is descriptive, not evaluative."
+    },
+
+    "stage": {
+      "type": "string",
+      "description": "Optional pipeline stage identifier (e.g. extract, link, conflict)."
+    },
+
+    "message": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable description of what happened."
+    },
+
+    "details": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional structured details (schema id, file path, counters, exception class, etc.). Must not encode truth/quality scoring."
+    },
+
+    "refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "artifact_path": {
+          "type": "string",
+          "description": "Optional path of an artifact involved (relative to run dir)."
+        },
+        "schema_id": {
+          "type": "string",
+          "description": "Optional schema identifier relevant to this entry."
+        },
+        "claim_id": {
+          "type": "string",
+          "minLength": 8,
+          "description": "Optional claim identifier relevant to this entry."
+        },
+        "relation_id": {
+          "type": "string",
+          "minLength": 8,
+          "description": "Optional relation identifier relevant to this entry."
+        },
+        "conflict_id": {
+          "type": "string",
+          "minLength": 8,
+          "description": "Optional conflict identifier relevant to this entry."
+        }
+      },
+      "description": "Optional typed references to MMS artifacts."
+    },
+
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional creation time of this record if different from ts (append-only)."
+    }
+  }
+}
+
