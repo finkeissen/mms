@@ -24,7 +24,18 @@ It is **not**:
 - a knowledge graph with implicit semantics
 
 MMS provides structure, identity, and history.
-Meaning and resolution are always external.
+Meaning, merit, and resolution are always external.
+
+MMS functions as a **DBMS / operating system**
+for the Matrix knowledge base.
+
+MMS guarantees **inner integrity**
+(structural consistency, referential integrity, auditability, and history),
+but it **cannot and must not** guarantee **outer integrity**
+(correspondence of stored state descriptions with real-world processes).
+
+Outer integrity must be established by
+external actors or systems.
 
 ---
 
@@ -39,6 +50,8 @@ architectural responsibilities must not.
 ## Core Architectural Invariants
 
 The following invariants are **non-negotiable**.
+
+---
 
 ### 1. Append-Only Semantics
 
@@ -72,6 +85,18 @@ Every canonical artifact originates from exactly one **Run**.
 - Runs are the atomic audit unit
 
 Runs are the only bridge between automation and canonical state.
+
+---
+
+### Clarification — Runs and Commits
+
+A **Run** is the atomic accountable execution context.
+
+A **Commit** is the atomic introduction of a new
+canonical **global epistemic state description**
+into Matrix history, produced by exactly one Run.
+
+No commit exists without a Run origin.
 
 ---
 
@@ -165,6 +190,8 @@ Resolution is optional; representation is mandatory.
 
 MMS enforces strict separation.
 
+---
+
 ### Kernel
 
 The kernel:
@@ -193,9 +220,9 @@ Processes:
 - define allowed sequences of runs
 - encode ordering and staging
 - define failure modes
-- never decide truth
+- never decide truth or merit
 
-Processes orchestrate, they do not judge.
+Processes orchestrate; they do not judge.
 
 ---
 
@@ -222,7 +249,8 @@ Profiles define **capability**, not authority.
 ### Clarification — No Epistemic Privilege
 
 No profile may introduce
-epistemic priority or correctness by role.
+epistemic priority, correctness,
+or merit by role.
 
 ---
 
@@ -249,6 +277,31 @@ Any tool that:
 
 operates outside MMS responsibility
 and must not write canonical artifacts implicitly.
+
+---
+
+## Enrichment Interfaces (Non-Authoritative)
+
+MMS supports **explicit enrichment artifacts**
+provided by internal or external services.
+
+Enrichments may:
+- compare competing descriptions
+- document failures or dead ends
+- mark approaches as insufficient or problematic
+- add critiques, evaluations, or experience reports
+
+Markers such as **“bad”, “failed”, or “insufficient”**
+are treated as **experience records**, not judgments.
+
+Enrichments:
+- must be explicitly attributed
+- must never delete or override canonical artifacts
+- must never imply truth, correctness, or consensus
+- remain fully auditable and reversible by history
+
+Enrichment preserves memory.
+It does not select winners.
 
 ---
 
@@ -282,6 +335,21 @@ They only guarantee sameness.
 
 Integrity ensures sameness over time.
 It does not imply correctness, relevance, or trustworthiness.
+
+---
+
+## Policy Hosting (research-program)
+
+The research-program is represented as
+**versioned policy artifacts**
+stored in the Matrix.
+
+The MMS kernel enforces conformance
+to these policy artifacts
+as **structural constraints**.
+
+The kernel does **not** interpret
+policy content as truth or correctness.
 
 ---
 
@@ -382,6 +450,7 @@ It optimizes for:
 - auditability
 - reversibility
 - disagreement tolerance
+- long-term memory
 
 Any change that weakens these properties
 is architecturally invalid.
@@ -423,7 +492,7 @@ The following signals should be treated as audit triggers:
 - “We can infer truth from structure.”
 - “The model concluded that…”
 
-These are not “opinions”.
+These are not opinions.
 They are structural indicators of authority creep.
 
 ---

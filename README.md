@@ -76,7 +76,6 @@ In MMS:
 Any appearance of authority is external to MMS
 and must be introduced explicitly.
 
-
 ---
 
 ## Core Design Principle
@@ -165,6 +164,29 @@ Everything else is derived.
 
 Claims are **statements made by sources**, not facts about the world.
 Their presence in MMS implies admissibility, not correctness.
+
+---
+
+## Clarification — Scope of Claims (Additive)
+
+Claims managed by MMS may represent, without distinction or special status:
+
+- descriptive statements,
+- normative statements,
+- alternative options or courses of action,
+- advantages, disadvantages, and tradeoffs,
+- rules, norms, or requirements,
+- institutional or authoritative statements,
+- interpretations and counter-interpretations.
+
+MMS does not interpret, enforce, prioritize, or evaluate
+any such claims.
+Their representation has **no normative or authoritative effect**
+within the system.
+
+This clarification introduces no new artifact types,
+no new kernel behavior,
+and no additional admissibility criteria.
 
 ---
 
