@@ -190,3 +190,21 @@ This file is **structural glue**.
 
 If this file feels boring, it is doing its job.
 
+
+## Gateway (Structural Enforcement)
+
+- `gateway/README.md` — scope
+- `gateway/CHECKS.md` — minimal structural checks
+- `gateway/INPUT-OUTPUT.md` — interface specification
+- `gateway/FAILURE-MODES.md` — admissible failure modes
+- `gateway/LOGGING.md` — logging into the Matrix
+- `gateway/DRY-RUN.md` — content-free integrity test
+- `gateway/USE-CASE-STOP-001.md` — intentional STOP instantiation
+- `gateway/WALKTHROUGH.md` — public walkthrough
+- `gateway/CHECKLIST.md` — ex post audit checklist
+
+## Gateway (External Module)
+
+Gateway documentation currently exists under `gateway/` as a staging area.
+If Gateway is separated into its own repository, this section will only retain pointers.
+

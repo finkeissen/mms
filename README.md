@@ -398,3 +398,13 @@ runs/        # Append-only execution records
 tools/       # Optional helper tools
 modes/       # Historical archive (non-canonical)
 
+
+## Gateway
+
+The `gateway/` folder contains the **structural enforcement layer**:
+- form-only checks
+- STOP / Absence as valid outcomes
+- append-only logging into the Matrix
+
+It introduces no evaluation, ranking, or decision-making.
+
