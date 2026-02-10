@@ -1,41 +1,69 @@
-# Python
-__pycache__/
-*.pyc
-*.pyo
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
+# ==================================================
+# OS / Editor
+# ==================================================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
 
-# Virtualenv
+# ==================================================
+# Python / Runtime
+# ==================================================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
 .venv/
 venv/
-ENV/
-env/
+.env
+.env.*
+.pytest_cache/
+.mypy_cache/
 
-# Test / Coverage
-.coverage
-coverage.xml
-htmlcov/
-
-# Build / Packaging
-build/
-dist/
-*.egg-info/
-
-# Logs / Runtime artifacts
+# ==================================================
+# Logs / Temp / Cache
+# ==================================================
 *.log
-logs/
+*.tmp
 tmp/
-snapshots/
+temp/
+.cache/
+.cache/**
 
-# Editor / Backups
-*~
-*.swp
-.DS_Store
-.idea/
-.vscode/
+# ==================================================
+# Repo policy:
+# Implementation is NOT public
+# ==================================================
 
-# Generated artifacts
-exports/
-facts/tmp/
+# Gateway (implementation, runtime, experiments)
+gateway/
+
+# Implementation self-descriptions (belong to implementation, not requirements)
+implementation.yaml
+
+# ==================================================
+# Requirements: generated or local artifacts only
+# (normative markdown, schemas, contracts stay tracked)
+# ==================================================
+requirements/**/__pycache__/
+requirements/**/tmp/
+requirements/**/exports/
+requirements/**/logs/
+
+# ==================================================
+# Optional safety net
+# ==================================================
+# Prevent accidental commits of large data or mirrors
+*.jsonl
+*.parquet
+*.sqlite
+
+dir.txt
+ToDo
+
+
+AUDIT_COMPLETENESS.md
+CLEANUP.md
 

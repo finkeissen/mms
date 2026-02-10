@@ -1,410 +1,140 @@
-# Matrix Management System (MMS)
+# MMS – Modular Model System
 
-**Status:** Draft  
-**Current version:** 0.2.x  
-**Scope:** Conceptual architecture + reference structure  
-**Goal:** A DBMS-like system for epistemic artifacts (claims, relations, conflicts)
+This repository contains the **public, normative requirements** of the
+**Modular Model System (MMS)**.
 
----
+It is intentionally a **requirements-only** repository.
 
-## What MMS Is
-
-The **Matrix Management System (MMS)** is a system for managing
-**epistemic artifacts** under conditions of:
-
-- incomplete knowledge
-- conflicting sources
-- alternative interpretations
-- long-term revision and auditability
-
-MMS does **not** decide what is true.
-
-Instead, it provides:
-- stable identities
-- explicit provenance
-- append-only history
-- explicit conflict representation
-
-MMS is closer to a **database system** than to an expert system.
-It is an infrastructure for *managing uncertainty*, not resolving it.
+The purpose of this repository is to define **what MMS is and guarantees** —
+not how it is implemented.
 
 ---
 
-## Non-Authority, Merit Exposure
+## Scope and Intent
 
-MMS is a strictly **non-authoritative system**.
+This repository defines the **authoritative public contract** of MMS.
 
-It does not derive authority from sources, authors, institutions,
-historical standing, or social recognition.
-No form of eminence has structural effect within the system.
+It specifies:
+- responsibilities and obligations,
+- public concepts and terminology,
+- normative rules, constraints, and invariants,
+- schemas, formats, and validation requirements,
+- versioning and change rules for public behavior.
 
-All inputs enter MMS exclusively as explicit artifacts
-(claims, relations, conflicts),
-bound to provenance, context, and time.
+Anything not defined in this repository is **not part of the MMS public contract**.
 
----
-
-MMS does not evaluate, rank, score, or select claims.
-It does not decide which claims are stronger, better,
-more relevant, or more correct.
-
-The system produces **structural effects only**.
-Any epistemic judgment, interpretation, or validation
-must occur explicitly outside MMS.
+This repository does **not** contain:
+- implementation code,
+- runtime systems,
+- - implementation code (e.g., gateways, runtimes, processing systems),
+- pipelines, tools, or operational logic.
 
 ---
 
-Merit is therefore not enforced, optimized, or operationalized.
+## Repository Structure
 
-Merit may become visible through:
-- explicit formulation
-- stable reference structures
-- reproducibility across runs
-- persistence under conflict
+### `requirements/` — Public, Normative, Authoritative
 
-Such effects are **emergent**, not systemic.
+The `requirements/` directory is the **single source of truth** for MMS.
 
----
+All content in this directory is:
+- **public**
+- **normative**
+- **authoritative**
+- **versioned and auditable**
 
-In MMS:
-- authority does not accumulate
-- status does not propagate
-- consensus does not collapse disagreement
-- visibility replaces validation
-- responsibility replaces truth
+If something is defined in `requirements/`, implementations are expected to
+**comply exactly**.
 
-Any appearance of authority is external to MMS
-and must be introduced explicitly.
+If something is **not** defined in `requirements/`, it is **not guaranteed** by MMS.
 
----
-
-## Core Design Principle
-
-> **Nothing is silently decided.  
-> Everything is explicit, inspectable, and reversible by history.**
-
-This principle applies uniformly to:
-- extraction
-- structure
-- conflicts
-- revisions
-- automation
-
-There are no hidden defaults, implicit resolutions, or silent overwrites.
+Start here:
+- `requirements/README.md`
+- `requirements/INDEX.md`
 
 ---
 
-### Architectural Note — Reversibility
+## Authority Model
 
-Reversibility refers to **structural reversibility by history**,  
-not to undoing or correcting claims.
-Nothing is deleted; later structure may contradict earlier structure.
+Authority in MMS flows strictly in one direction:
 
----
+requirements → implementation
 
-## MMS as a DBMS (Conceptual Analogy)
 
-MMS deliberately mirrors the architecture of a classical DBMS,
-but replaces *data* with *knowledge claims*.
+This means:
+- Requirements define obligations and guarantees.
+- Implementations realize those guarantees.
+- Implementations must not reinterpret, weaken, or extend requirements.
+- Undefined behavior is considered **forbidden**, not implicit.
 
-| DBMS Concept        | MMS Equivalent |
-|--------------------|----------------|
-| Table / Record     | Claim / Relation / Conflict |
-| Schema             | JSON Schema (kernel-bound) |
-| Transaction        | Run |
-| WAL / History      | Append-only run history |
-| Constraint Check   | Kernel Gate |
-| Index              | Derived, optional access layer |
-| Query Language     | External / out of scope |
-| Truth / Consistency| Explicitly **not enforced** |
-
-This analogy is **architectural**, not literal.
-MMS borrows structural rigor, not epistemic authority.
+In case of any contradiction:
+> **The requirements always take precedence.**
 
 ---
 
-### Explicit Boundary — Analogy Limit
+## Implementation
 
-The DBMS analogy must not be read as implying:
-- correctness
-- consistency
-- convergence
-- completeness
-- queryable truth
+Implementations of MMS (e.g., gateways, runtimes, processing systems) exist outside this public contract repository.
+are **intentionally not part of this public repository**.
 
-It is a **structural analogy only**.
+Implementations may exist in separate repositories or internal systems.
+They are expected to:
+- consume these requirements,
+- declare their own conformance,
+- remain strictly subordinate to the requirements defined here.
 
----
-
-## What MMS Manages
-
-MMS manages exactly three **canonical artifact types**:
-
-1. **Claims**  
-   Atomic assertions extracted from sources.
-
-2. **Relations**  
-   Structural links between claims (e.g. alternatives, dependencies).
-
-3. **Conflicts**  
-   Explicit representations of incompatibility between claims.
-
-These artifacts are:
-- append-only
-- schema-bound
-- provenance-rich
-- conflict-capable
-- never silently modified
-
-Everything else is derived.
+This repository defines **what MMS guarantees**.  
+Implementations define **how those guarantees are realized**.
 
 ---
 
-### Clarification — Claims Are Not Facts
+## Contributing
 
-Claims are **statements made by sources**, not facts about the world.
-Their presence in MMS implies admissibility, not correctness.
+This repository accepts contributions related to:
+- requirements,
+- contracts,
+- schemas,
+- normative documentation,
+- clarifications of public guarantees.
 
----
+It does **not** accept:
+- implementation code,
+- runtime logic,
+- tooling or execution pipelines,
+- experimental or operational artifacts.
 
-## Clarification — Scope of Claims (Additive)
-
-Claims managed by MMS may represent, without distinction or special status:
-
-- descriptive statements,
-- normative statements,
-- alternative options or courses of action,
-- advantages, disadvantages, and tradeoffs,
-- rules, norms, or requirements,
-- institutional or authoritative statements,
-- interpretations and counter-interpretations.
-
-MMS does not interpret, enforce, prioritize, or evaluate
-any such claims.
-Their representation has **no normative or authoritative effect**
-within the system.
-
-This clarification introduces no new artifact types,
-no new kernel behavior,
-and no additional admissibility criteria.
+See `CONTRIBUTING.md` for details.
 
 ---
 
-## What MMS Explicitly Does NOT Do
+## Versioning and Change Policy
 
-MMS does **not**:
+Public behavior of MMS is defined exclusively by the contents of
+the `requirements/` directory.
 
-- determine correctness or truth
-- rank, score, or weight claims
-- resolve conflicts automatically
-- enforce a global ontology
-- hide uncertainty
-- collapse alternatives
+Any change to public behavior requires:
+- an explicit change to the relevant requirement,
+- clear documentation of intent,
+- appropriate versioning,
+- an auditable change history.
 
-All such operations may exist **outside** the MMS kernel,
-but never implicitly inside it.
-
-Any resolution must be explicit, reversible, and external.
+Backward-incompatible changes must be explicit and justified.
 
 ---
 
-### Explicit Boundary — No Implicit Resolution
+## License and Security
 
-Any process that *appears* to reduce disagreement
-without explicit representation is architecturally invalid.
-
----
-
-## Kernel, Process, and Roles
-
-MMS separates concerns strictly.
+- License information is available in `LICENSE`.
+- Security reporting guidelines are defined in `SECURITY.md`.
 
 ---
 
-### Kernel
+## Status
 
-The **Kernel** defines:
-- invariants
-- identity rules
-- append-only semantics
-- minimal structural guarantees
+MMS requirements are under active development and refinement.
 
-The kernel is:
-- passive
-- non-intelligent
-- non-heuristic
-
-It validates structure, not meaning.
-
----
-
-### Clarification — Kernel Scope
-
-The kernel never inspects semantic content.
-It enforces only:
-- schema validity
-- identity constraints
-- append-only guarantees
-
----
-
-### Logical Process
-
-The **Logical Process** defines:
-- stages from extraction to publication
-- ordering constraints
-- allowed transitions
-- failure modes
-
-Processes do not decide truth.
-They only define *what may happen when*.
-
----
-
-### Explicit Boundary — Process vs. Authority
-
-A process may fail, stop, or abort,
-but it may never *decide*.
-
----
-
-### Profiles and Modes
-
-**Profiles** define *who may do what*.
-**Modes** bundle profiles, tools, and processes into reproducible configurations.
-
-Profiles define **permissions**, not authority.
-No profile has epistemic priority.
-
----
-
-### Clarification — Reproducibility Without Correctness
-
-Modes guarantee reproducibility of structure,
-never correctness of content.
-
----
-
-## Runs: The Transaction Unit
-
-A **Run** is the atomic execution and audit unit of MMS.
-
-A run records:
-- inputs (sources, prior artifacts)
-- configuration (modes, prompts, tools)
-- outputs (claims, relations, conflicts)
-- outcome (e.g. SUCCESS, NOCLAIM, STOP)
-
-Runs are:
-- append-only
-- never modified or deleted
-- the sole origin of canonical artifacts
-
-> **No run, no claim.**
-
----
-
-### Explicit Boundary — STOP as Valid Outcome
-
-STOP is a valid, expected, and correct run outcome.
-A run ending in STOP produces no claims
-and requires no repair.
-
----
-
-## Identity, Hashes, and Integrity
-
-MMS relies on **explicit identity**, not implicit context.
-
-Hashes are used to ensure:
-- source immutability
-- configuration traceability
-- reproducibility
-- integrity verification
-
-Hashes provide **identity and integrity**, not meaning or trust.
-
----
-
-### Clarification — Hashes Are Not Validation
-
-Hashes do not imply:
-- source quality
-- correctness
-- authority
-- endorsement
-
----
-
-## Indices and Access (Derived, Optional)
-
-MMS does **not** define a central index.
-
-> **Indices are derived artifacts, not kernel objects.**
-
-They:
-- never add information
-- never resolve conflicts
-- may always be deleted and rebuilt
-
-The system remains valid without them.
-
----
-
-### Architectural Note — Index Volatility
-
-Indices must be treated as disposable views,
-never as epistemic artifacts.
-
----
-
-## Automation and Tooling
-
-Automation in MMS is:
-- optional
-- external to the kernel
-- contract-bound
-
-Tools never bypass:
-- kernel invariants
-- append-only semantics
-- explicit run boundaries
-
-There is no hidden automation.
-
----
-
-### Explicit Boundary — Tool Responsibility
-
-Any tool that introduces:
-- aggregation
-- summarization
-- ranking
-- interpretation
-
-operates **outside** MMS responsibility.
-
----
-
-## Repository Structure (Conceptual)
-
-```text
-docs/        # Normative architecture and design
-schemas/     # Canonical JSON Schemas (kernel-bound)
-kernel/      # Core invariants and validation logic
-pipelines/   # Logical process definitions
-profiles/    # Role and permission definitions
-runs/        # Append-only execution records
-tools/       # Optional helper tools
-modes/       # Historical archive (non-canonical)
-
-
-## Gateway
-
-The `gateway/` folder contains the **structural enforcement layer**:
-- form-only checks
-- STOP / Absence as valid outcomes
-- append-only logging into the Matrix
-
-It introduces no evaluation, ranking, or decision-making.
-
+This repository is designed to be:
+- stable in structure,
+- explicit in guarantees,
+- conservative in public commitments,
+- clear about authority and responsibility boundaries.
