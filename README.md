@@ -1,7 +1,7 @@
-# MMS – Modular Model System
+# MMS – Matrix Management System
 
 This repository contains the **public, normative requirements** of the
-**Modular Model System (MMS)**.
+**Matrix Management System (MMS)**.
 
 It is intentionally a **requirements-only** repository.
 

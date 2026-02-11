@@ -1,160 +1,210 @@
-# MMS – Index (PUBLIC)
+# INDEX.md
 
-## Repository Orientation Index  
-**Contracts · Architecture · Decisions · Terminology**
+## Repository Purpose
 
----
+This repository defines the **normative specification, contracts, schemas, and documentation**
+for the **MMS (Matrix Management System)**.
 
-## Purpose of This File
+It is **not** an implementation repository.
 
-This file is the **canonical navigation and orientation index**
-for the **MMS repository**.
-
-Its purpose is to:
-- provide a stable entry point for readers and auditors
-- make responsibility boundaries explicit
-- prevent layer confusion
-- avoid implicit authority through structural clarity
-
-This file contains:
-- **no epistemic content**
-- **no architectural decisions**
-- **no implementation details**
-
-It is purely **structural**.
+No executable system, runtime, gateway, service, or deployment is provided here.
 
 ---
 
-## How to Read This Index
+## Normativity Legend
 
-The repository is organized as a **strict separation of concerns**.
+- **NORMATIVE**  
+  Binding specification. Implementations MUST conform.
 
-Each section:
-- has a clearly defined role
-- must not assume responsibilities of other sections
-- increases specificity **without increasing authority**
+- **NON-NORMATIVE**  
+  Informational, explanatory, historical, or illustrative content.
 
-Reading order matters.
-
----
-
-## Public Contract Layer (Normative)
-
-### Directory: `requirements/`
-
-**Role:**  
-Define the **binding public contract** of the Matrix Management System (MMS).
-
-**Responsibilities:**
-- define what MMS is and guarantees
-- define what MMS explicitly does not do
-- establish non-negotiable architectural invariants
-- fix normative terminology
-
-**Does NOT:**
-- describe implementation details
-- define runtime behavior
-- prescribe tooling or technologies
+- **NON-PUBLIC**  
+  Content that MUST NOT be published, relied upon, or assumed to exist by third parties.
 
 ---
 
-### Core Contract Documents
+## Root-Level Files
 
-These documents are **normative and binding**:
-
-- `README.md`  
-  → Entry point: scope, guarantees, non-goals
-
-- `RESPONSIBILITIES.md`  
-  → Explicit responsibilities and scope boundaries
-
-- `ARCHITECTURE.md`  
-  → Non-negotiable architectural invariants
-
-- `DECISIONS.md`  
-  → Record of explicit, binding system decisions
-
-- `GLOSSARY.md`  
-  → Normative terminology (authoritative)
+| Path | Role | Normativity |
+|-----|-----|-------------|
+| `README.md` | Repository overview | NON-NORMATIVE |
+| `CHANGELOG.md` | Specification history | NON-NORMATIVE |
+| `CONTRIBUTING.md` | Contribution rules | NON-NORMATIVE |
+| `SECURITY.md` | Security policy | NON-NORMATIVE |
+| `IMPLEMENTATION.md` | Implementation guidance | NON-NORMATIVE |
+| `AUDIT_COMPLETENESS.md` | Audit checklist | NON-NORMATIVE |
+| `CLEANUP.md` | Maintenance notes | NON-NORMATIVE |
+| `ToDo` | Internal notes | NON-NORMATIVE |
 
 ---
 
-### Supporting Contract Material
+## Directory: `requirements/`  (NORMATIVE ROOT)
 
-- `schemas/`  
-  → Canonical schemas defining valid artifact structure
+All content under `requirements/` defines the **authoritative MMS specification**.
 
-- `docs/`  
-  → Additional normative explanations and clarifications  
-  (must not contradict core documents)
+### Core Documents
 
----
-
-### Implementation
-
-This repository does not include implementation code (e.g., gateways).
-See `IMPLEMENTATION.md`.
-
-
-### Directory: `gateway/`
-
-**Role:**  
-Provide a **reference implementation** of the MMS contracts.
-
-**Responsibilities:**
-- implement the guarantees defined in `requirements/`
-- execute runs
-- enforce invariants at runtime
-- provide technical projections and access paths
-
-**Does NOT:**
-- define contracts
-- introduce new responsibilities
-- make epistemic decisions
-
-All content under `gateway/` is **NON-PUBLIC**
-and may change without affecting the contract,
-as long as the contract is upheld.
+| Path | Description |
+|-----|-------------|
+| `requirements/README.md` | Normative scope and rules |
+| `requirements/INDEX.md` | Canonical index (this file) |
+| `requirements/LICENSE` | Licensing |
+| `requirements/ARCHITECTURE.md` | System architecture |
+| `requirements/DECISIONS.md` | Architectural decisions |
+| `requirements/GLOSSARY.md` | Terminology |
+| `requirements/RESPONSIBILITIES.md` | Role definitions |
+| `requirements/AUDIT.md` | Audit requirements |
+| `requirements/MISUSE.md` | Misuse constraints |
+| `requirements/CHANGELOG.md` | Spec change history |
+| `requirements/CONTRIBUTING.md` | Spec contribution rules |
 
 ---
 
-## Canonical Reading Order
+## Directory: `requirements/docs/`
 
-1. `requirements/README.md`
-2. `requirements/RESPONSIBILITIES.md`
-3. `requirements/ARCHITECTURE.md`
-4. `requirements/DECISIONS.md`
-5. `requirements/GLOSSARY.md`
-6. `gateway/README.md` (implementation context)
+Conceptual and theoretical foundations.
 
----
+| Path | Description |
+|-----|-------------|
+| `00_super.manifest.md` | Global manifest |
+| `10_kernel-contract.md` | Kernel contract |
+| `11_epistemic_hygiene.md` | Epistemic constraints |
+| `15_epistemics.md` | Epistemic framework |
+| `20_logical-process.md` | Logical process model |
+| `25_stage-to-artifacts-mapping.md` | Stage mappings |
+| `30_profiles-and-modes.md` | Profiles and modes |
+| `35_matrix-identity-and-versioning.md` | Versioning |
+| `40_automation-and-ops.md` | Ops considerations |
 
-## Canonical Rule
-
-> **If something appears to decide, recommend, conclude,  
-> or assert truth, it is already outside the scope of MMS.**
-
----
-
-## Maintenance Rules
-
-- This index changes **only** when:
-  - repository structure changes
-  - responsibility boundaries shift (rare)
-- This index must never contain:
-  - epistemic claims
-  - domain examples
-  - implementation specifics
-  - references to external or former repositories
-
-Its sole purpose is **orientation without authority**.
+All files: **NORMATIVE unless explicitly stated otherwise inside the file**.
 
 ---
 
-## Status
+## Directory: `requirements/kernel/`
 
-This file is **structural glue**.
+| Path | Description |
+|-----|-------------|
+| `README.md` | Kernel definition |
 
-If this file feels boring,
-it is doing its job.
+**NORMATIVE**
+
+---
+
+## Directory: `requirements/modes/`
+
+Historical and versioned evolution of MMS modes.
+
+Each version directory is **NORMATIVE for its declared version**.
+
+Examples:
+- `0.1.x` — exploratory and early automation
+- `0.2.x` — structured information processing
+- `0.3.x` — explicit source handover
+- `0.4.x` — problem-centered modeling
+- `0.5.x` — LLM-assisted extraction
+
+Contents may include:
+- schemas
+- prompts
+- pipelines
+- examples
+- tests
+- documentation
+
+---
+
+## Directory: `requirements/pipelines/`
+
+Pipeline definitions and prompt producers.
+
+| Path | Description |
+|-----|-------------|
+| `README.md` | Pipeline overview |
+| `prompt/` | Prompt-based pipelines |
+
+**NORMATIVE**
+
+---
+
+## Directory: `requirements/profiles/`
+
+Execution and usage profiles.
+
+| Path | Description |
+|-----|-------------|
+| `README.md` | Profile definitions |
+
+**NORMATIVE**
+
+---
+
+## Directory: `requirements/runs/`
+
+Run manifests and examples.
+
+| Path | Description |
+|-----|-------------|
+| `README.md` | Run structure |
+| `examples/` | Example manifests |
+
+Schemas are **NORMATIVE**, example data is **NON-NORMATIVE**.
+
+---
+
+## Directory: `requirements/schemas/`
+
+All JSON schemas defining MMS data contracts.
+
+**STRICTLY NORMATIVE**
+
+---
+
+## Directory: `requirements/tools/`
+
+Validation and helper tools.
+
+| Path | Description |
+|-----|-------------|
+| `validate_run.py` | Run validator |
+
+Tools are **NON-NORMATIVE**, schemas they validate against are NORMATIVE.
+
+---
+
+## Directory: `gateway/`
+
+**NON-PUBLIC · NON-NORMATIVE · OPTIONAL**
+
+- Not part of the MMS specification
+- No guarantees of existence
+- No stability or compatibility guarantees
+- May be absent entirely
+- Must not be referenced as a required component
+
+Any mention of `gateway/` is **descriptive only**.
+
+Implementations MAY:
+- maintain private gateways
+- mirror requirements internally
+- replace or omit gateways entirely
+
+---
+
+## Global Rules
+
+1. This repository defines **WHAT**, never **HOW**
+2. No file outside `requirements/` is binding
+3. No implementation is required, implied, or provided
+4. Absence of a component MUST NOT be treated as an error
+5. Specifications are self-contained
+
+---
+
+## Canonical Status
+
+This file is the **single authoritative index** of the repository.
+
+All interpretations MUST conform to this structure.
+
 
