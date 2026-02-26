@@ -122,6 +122,38 @@ Backward-incompatible changes must be explicit and justified.
 
 ---
 
+## Architecture Overview
+
+The architecture consists of four strictly separated layers:
+
+0. **Legacy**  
+   Preserves prior assumptions,
+   unresolved contradictions,
+   structural patterns,
+   and contextual material
+   that exist *before* admissibility,
+   governance,
+   or instantiation.
+           ↓
+1. **Research Program (RP)**  
+   Defines ontological primitives
+   and admissible structural forms.
+           ↓
+2. **Meta-Management System (MMS)**  
+   Enforces admissibility rules
+   without structural or epistemic authority.
+           ↓
+3. **Matrix**  
+   Records concrete instantiations,
+   conflicts,
+   STOPs,
+   and explicit absences.
+
+
+The Matrix contains only what remains after RP definition and MMS enforcement.
+
+No layer may absorb the role of another.
+
 ## License and Security
 
 - License information is available in `LICENSE`.
@@ -138,3 +170,46 @@ This repository is designed to be:
 - explicit in guarantees,
 - conservative in public commitments,
 - clear about authority and responsibility boundaries.
+
+## Role in the epistemic flow
+
+MMS operationalizes the admissibility rules defined in the Research Program.
+
+It does not create knowledge.
+It manages transitions.
+
+MMS determines whether:
+- artifacts may enter the Matrix,
+- must remain absent,
+- or trigger STOP and regress to Legacy.
+
+## STOP as an operational outcome
+
+Within MMS, STOP is not an error condition.
+
+STOP indicates that admissibility cannot be established under the current context.
+
+When STOP occurs:
+- transitions are blocked,
+- the Matrix records the state,
+- unresolved structures may be preserved in Legacy.
+
+## Non-authority clarification
+
+MMS enforces structure without acquiring epistemic authority.
+
+It does not:
+- validate truth,
+- resolve disagreement,
+- rank evidence,
+- or produce decisions.
+
+Its role is constraint enforcement and state management.
+
+## Interfaces
+
+- Research Program → defines admissibility rules
+- MMS → enforces transitions and STOP
+- Matrix → records resulting epistemic states
+- Legacy → preserves unresolved or inadmissible structures
+
