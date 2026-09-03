@@ -154,10 +154,15 @@ The Matrix contains only what remains after RP definition and MMS enforcement.
 
 No layer may absorb the role of another.
 
-## License and Security
+## License
 
-- License information is available in `LICENSE`.
-- Security reporting guidelines are defined in `SECURITY.md`.
+This repository is licensed under the **GNU Affero General Public License v3.0**.
+
+You may copy, modify and distribute the work under the terms of the AGPL-3.0.
+If you modify the software and run it on a network server, you must make the
+complete corresponding source code available to the users of that server.
+
+See the file `LICENSE` for the full text.
 
 ---
 
