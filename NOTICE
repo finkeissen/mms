@@ -1,0 +1,24 @@
+Finkeissen Research Program
+https://github.com/finkeissen
+
+Copyright (C) 2024–2026 Ekkehard Finkeissen
+
+This repository is part of a layered research architecture. The central
+licence overview applies:
+https://github.com/finkeissen/finkeissen/blob/main/LICENSING.md
+
+Software repository: the AGPL-3.0 in LICENSE governs the whole repository.
+
+Tiers:
+- Software (`mms`; `matrix` folder `2_engine/`) → AGPL-3.0
+- Epistemic text, schemas and data artefacts → CC BY-SA 4.0
+- Books and book extracts (`books/` in research-program) → not licensed;
+  all rights reserved by the author. Published teasers are for personal
+  reading only — no redistribution, modification or commercial use.
+- Third-party material (e.g. WHO ICD-11 in matrix) → original terms of the
+  rights holder; no further rights granted.
+- Legacy archive (`legacy`) → all rights reserved; publicly viewable as
+  archive, no use licensed.
+
+Local experimental runs and unreleased evidence remain private
+until deliberately published under the licence of the target repository.
